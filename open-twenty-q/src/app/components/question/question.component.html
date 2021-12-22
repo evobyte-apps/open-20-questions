@@ -1,0 +1,98 @@
+<div class="question-area">
+    <mat-card>
+        <ng-container *ngIf="!submitted">
+            <mat-card-subtitle>
+                Add your own question and bootstrap it by answering it in relation to random entities.
+            </mat-card-subtitle>
+            <mat-card-title>    
+                <mat-form-field>
+                    <input matInput placeholder="Question" [formControl]="autocompleteControl" name="question">
+                </mat-form-field>
+            </mat-card-title>
+        </ng-container>
+        <ng-container *ngIf="submitted">
+            <mat-card-subtitle>
+                Thank you for your contribution, it has been recorded.
+            </mat-card-subtitle>
+            <mat-card-title>    
+                {{ autocompleteControl.value }}
+            </mat-card-title>
+        </ng-container>
+
+        <mat-card-content *ngIf="!submitted">
+            <ng-container *ngIf="filteredQuestions.length > 0">
+                <p>Please make sure that these existing questions are not similar enough before adding your own:</p>
+                <mat-grid-list cols="2" rowHeight="30px">
+                    <mat-grid-tile *ngFor="let q of filteredQuestions; let i=index"> 
+                        {{ i+1 }}. {{ q.text }} 
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <p></p>
+            </ng-container>
+
+
+            <p>Please answer your question with regard to the following entities before submitting it:</p>
+            <table mat-table [dataSource]="ds" class="mat-elevation-z8"> 
+
+                <ng-container matColumnDef="entity">
+                    <th mat-header-cell *matHeaderCellDef> Entity </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="answers">
+                    <th mat-header-cell *matHeaderCellDef> Answer </th>
+                    <td mat-cell *matCellDef="let element; let i=index">
+                        <div class="answer-btns"> 
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer === 'yes'" mat-raised-button color="primary" (click)="recordAnswer(i, 'yes')">
+                                Yes
+                            </button>
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer !== 'yes'" mat-stroked-button color="primary" (click)="recordAnswer(i, 'yes')">
+                                Yes
+                            </button>
+
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer === 'no'" mat-raised-button color="primary" (click)="recordAnswer(i, 'no')">
+                                No
+                            </button>
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer !== 'no'" mat-stroked-button color="primary" (click)="recordAnswer(i, 'no')">
+                                No
+                            </button>
+
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer === 'unknown'" mat-raised-button color="primary" (click)="recordAnswer(i, 'unknown')">
+                                I don't know
+                            </button>
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer !== 'unknown'" mat-stroked-button color="primary" (click)="recordAnswer(i, 'unknown')">
+                                I don't know
+                            </button>
+
+
+
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer === 'prob_yes'" mat-raised-button color="primary" (click)="recordAnswer(i, 'prob_yes')">
+                                Probably yes
+                            </button>
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer !== 'prob_yes'" mat-stroked-button color="primary" (click)="recordAnswer(i, 'prob_yes')">
+                                Probably yes
+                            </button>
+
+
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer === 'prob_no'" mat-raised-button color="primary" (click)="recordAnswer(i, 'prob_no')">
+                                Probably no
+                            </button>    
+                            <button *ngIf="newQuestionWithAnswers.answers[i].answer !== 'prob_no'" mat-stroked-button color="primary" (click)="recordAnswer(i, 'prob_no')">
+                                Probably no
+                            </button>    
+                        </div>
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="submit"> 
+                <button mat-raised-button color="accent" (click)="submitQuestion()">
+                    Submit
+                </button>    
+            </div>  
+        </mat-card-content>
+    </mat-card>
+</div>

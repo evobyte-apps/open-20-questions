@@ -1,0 +1,21 @@
+<p>
+  <mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Home" routerLink='/' color="{{this.getColorForPath('/')}}">
+      <mat-icon>home</mat-icon>
+    </button>
+    <span>Open source Twenty Questions app</span>
+    <span class="spacer"></span>
+    <div class="button-row">
+      <button mat-raised-button routerLink='/game' color="{{this.getColorForPath('/game')}}">
+        Play a game
+      </button>
+      <button mat-raised-button routerLink='/entity' color="{{this.getColorForPath('/entity')}}">
+        Browse entities
+      </button>
+      <button mat-raised-button routerLink='/question' color="{{this.getColorForPath('/question')}}">
+        Submit questions
+      </button>
+    </div>
+  </mat-toolbar>
+</p>
+<router-outlet></router-outlet>

@@ -1,0 +1,34 @@
+.play-area {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mat-stroked-button {
+    min-width: 120px;
+}
+
+.mat-card-actions .mat-stroked-button {
+    margin: 5px 8px;
+}
+
+.mat-card-actions-answers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mat-card-actions-guessed {
+    max-width: 700px;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.mat-table {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.mat-form-field {
+    margin-right: 10px;
+}

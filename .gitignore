@@ -1,0 +1,48 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/open-twenty-q/dist
+/open-twenty-q/tmp
+/open-twenty-q/out-tsc
+# Only exists if Bazel was run
+/open-twenty-q/bazel-out
+
+# dependencies
+/open-twenty-q/node_modules
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+# IDEs and editors
+/open-twenty-q/.idea
+/django/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+/open-twenty-q/.sass-cache
+/open-twenty-q/connect.lock
+/open-twenty-q/coverage
+/open-twenty-q/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/open-twenty-q/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+*.pyc

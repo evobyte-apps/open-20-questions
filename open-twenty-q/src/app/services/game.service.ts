@@ -1,0 +1,49 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { API_URL } from '../constants';
+import { Game } from '../models/game';
+import { GameQuestion } from '../models/game-question';
+import { GameWithGameQuestions } from '../models/game-with-gamequestions';
+import { Entity } from '../models/entity';
+import { Question } from '../models/question';
+import { NewQuestionWithAnswers } from '../models/new-question-with-answers';
+
+@Injectable()
+export class GameService {
+  constructor(private http: HttpClient) {}
+
+  startGame(): Observable<any> {
+    return this.http.post<GameQuestion>(`${API_URL}/game/`, {});
+  }
+
+  getGameDetails(id?: string): Observable<GameWithGameQuestions> {
+    return this.http.get<GameWithGameQuestions>(`${API_URL}/game/${id}`);
+  }
+
+  submitGameQuestionAnswer(gameQuestionId: string, answer: string): Observable<GameQuestion> {
+    return this.http.post<GameQuestion>(`${API_URL}/gamequestion/${gameQuestionId}/`, 
+      {answer: answer});
+  }
+
+  provideGuessFeedback(gameId: string, feedback_entity={}): Observable<any> {
+      return this.http.post<any>(`${API_URL}/game/${gameId}/submitfeedback/`, feedback_entity);
+  }
+
+  getEntitiesForAutoComplete(query: string): Observable<Entity[]> {
+    return this.http.get<Entity[]>(`${API_URL}/entity/autocomplete/${query}/`);
+  }
+
+  getQuestionsForAutoComplete(query: string): Observable<Question[]> {
+    return this.http.post<Question[]>(`${API_URL}/question/autocomplete/`, { 'text': query });
+  }
+
+  getRandomEntitiesForQuestion(): Observable<Entity[]> {
+    return this.http.get<Entity[]>(`${API_URL}/question/`);
+  }
+
+  submitNewQuestion(newQuestionWithAnswers: NewQuestionWithAnswers) {
+    return this.http.post<NewQuestionWithAnswers>(`${API_URL}/question/`, newQuestionWithAnswers);
+  }
+}
