@@ -29,6 +29,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { GameService } from './services/game.service';
 import { GamePlayComponent } from './components/game-play/game-play.component';
 import { QuestionComponent } from './components/question/question.component';
+import { AnswerQuestionsComponent } from './components/game-play/answer-questions/answer-questions.component';
+import { GuessFeedbackComponent } from './components/game-play/guess-feedback/guess-feedback.component';
+import { QuestionsHistoryComponent } from './components/game-play/questions-history/questions-history.component';
 
 
 @NgModule({
@@ -37,6 +40,9 @@ import { QuestionComponent } from './components/question/question.component';
     GameComponent,
     GamePlayComponent,
     QuestionComponent,
+    AnswerQuestionsComponent,
+    GuessFeedbackComponent,
+    QuestionsHistoryComponent,
   ],
   imports: [
     BrowserModule,

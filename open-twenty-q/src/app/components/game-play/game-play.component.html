@@ -1,129 +1,21 @@
 <div class="play-area" *ngIf="gameWithGameQuestions">
     <mat-card>
-        <ng-container *ngIf="unAnsweredQuestion?.question">
-            <mat-card-subtitle>
-                Question #{{answeredQuestions.length + 1}}
-            </mat-card-subtitle>
-            <mat-card-title>    
-                {{unAnsweredQuestion.question?.text}}
-            </mat-card-title>
+        <answer-questions 
+            [questionHistoryDs]="ds" 
+            [(unAnsweredQuestion)]="unAnsweredQuestion"
+            [answeredQuestions]="answeredQuestions"
+            *ngIf="unAnsweredQuestion.question">
+        </answer-questions>
 
-            <mat-card-actions class="mat-card-actions-answers">
-                <div></div>
-                <button mat-stroked-button color="primary" (click)="submitAnswer('yes')">
-                    Yes
-                </button>
-                <button mat-stroked-button color="primary"(click)="submitAnswer('no')">
-                    No
-                </button>
-                <button mat-stroked-button color="primary" (click)="submitAnswer('unknown')">
-                    I don't know
-                </button>
-                <button mat-stroked-button color="primary" (click)="submitAnswer('prob_yes')">
-                    Probably yes
-                </button>
-                <button mat-stroked-button color="primary" (click)="submitAnswer('prob_no')">
-                    Probably no
-                </button>
-            </mat-card-actions>
-        </ng-container>
-        <ng-container *ngIf="unAnsweredQuestion?.game?.guessed">
-            <ng-container *ngIf="gameEndState=='awaitingGuessAnswer'">
-                <mat-card-subtitle>
-                    I'm guessing it's...
-                </mat-card-subtitle>
-                <mat-card-title>    
-                    {{unAnsweredQuestion.game.guessed.name}}
-                </mat-card-title>
-
-                <mat-card-actions>
-                    <button mat-stroked-button color="accent" (click)="provideGuessFeedback(true)">
-                        Yes!
-                    </button>
-                    <button mat-stroked-button color="accent"(click)="provideGuessFeedback(false)">
-                        No!
-                    </button>
-                </mat-card-actions>
-                <br/>
-            </ng-container>
-
-            <ng-container *ngIf="gameEndState=='guessAnsweredAffirmative'">
-                <mat-card-subtitle>
-                    Yaay, I got it right, it was indeed <strong>{{unAnsweredQuestion.game.guessed.name}}</strong>!
-                </mat-card-subtitle>
-                <mat-card-title>    
-                    Another game?
-                </mat-card-title>
-                <br/>
-            </ng-container>
-
-            <ng-container *ngIf="gameEndState=='awaitingFeedbackEntity'">
-                <mat-card-subtitle>
-                    Well you can't win them all...
-                </mat-card-subtitle>
-                <mat-card-title>    
-                    So tell me the answer!
-                </mat-card-title>
-
-                <mat-card-content>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Your entity: </mat-label>
-                        <input type="text" matInput [formControl]="autocompleteControl" [matAutocomplete]="auto">
-                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-                            <mat-option *ngFor="let entity of filteredEntities" [value]="entity">
-                              {{entity.name}}
-                            </mat-option>
-                          </mat-autocomplete>        
-                    </mat-form-field>
-                    <button mat-stroked-button color="accent" (click)="submitReveal()">
-                        Submit
-                    </button>
-                </mat-card-content>
-                <br/>
-            </ng-container>
-
-            <ng-container *ngIf="gameEndState==='feedbackEntitySubmitted'">
-                <mat-card-subtitle *ngIf="unAnsweredQuestion?.game?.guessed?.name === unAnsweredQuestion?.game?.feedback_entity?.name">
-                    Yaay, I got it right, it was indeed <strong>{{unAnsweredQuestion.game.guessed?.name}}</strong>!
-                </mat-card-subtitle>
-                <mat-card-subtitle *ngIf="unAnsweredQuestion?.game?.guessed?.name !== unAnsweredQuestion?.game?.feedback_entity?.name">
-                    Darn, I had this as <strong>{{unAnsweredQuestion.game.guessed?.name}}</strong>, but it was actually <strong>{{unAnsweredQuestion.game.feedback_entity.name}}</strong>!
-                </mat-card-subtitle>
-                <mat-card-title>    
-                    Another game?
-                </mat-card-title>
-                <br/>
-            </ng-container>
-        </ng-container>
-   
-        <mat-card-content>
-            <p>Question history:</p>
-
-            <table mat-table [dataSource]="ds" class="mat-elevation-z8"> 
-                <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> No. </th>
-                    <td mat-cell *matCellDef="let element"> {{answeredQuestions.length - answeredQuestions.indexOf(element)}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="question">
-                    <th mat-header-cell *matHeaderCellDef> Question </th>
-                    <td mat-cell *matCellDef="let element"> {{element.question.text}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="answer">
-                    <th mat-header-cell *matHeaderCellDef> Answered </th>
-                    <td mat-cell *matCellDef="let element"> {{element.answer}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="entropy">
-                    <th mat-header-cell *matHeaderCellDef> Entropy </th>
-                    <td mat-cell *matCellDef="let element"> {{element.entropy.toFixed(3)}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </mat-card-content>
+        <guess-feedback 
+            [unAnsweredQuestion]="unAnsweredQuestion"
+            [gameEndState]="gameEndState"
+            *ngIf="unAnsweredQuestion.game?.guessed">
+        </guess-feedback>
+        
+        <questions-history
+            [ds]="ds">
+        </questions-history>
     </mat-card>
 
 </div>

@@ -1,22 +1,9 @@
-import { DataSource } from '@angular/cdk/collections';
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, pipe } from 'rxjs';
-import { debounceTime, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { Entity } from 'src/app/models/entity';
 import { GameQuestion } from 'src/app/models/game-question';
 import { GameWithGameQuestions } from 'src/app/models/game-with-gamequestions';
-import { GameService } from 'src/app/services/game.service';
-
-enum GameEndState {
-  AwaitingGuessAnswer = 'awaitingGuessAnswer',
-  GuessAnsweredAffirmative = 'guessAnsweredAffirmative',
-  AwaitingFeedbackEntity = 'awaitingFeedbackEntity',
-  FeedbackEntitySubmitted = 'feedbackEntitySubmitted',
-}
+import { GameEndState, GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-game-play',
@@ -27,15 +14,10 @@ export class GamePlayComponent implements OnInit {
 
   gameWithGameQuestions!: GameWithGameQuestions;
   unAnsweredQuestion!: GameQuestion;
-  answeredQuestions!: GameQuestion[];
-  ds = new MatTableDataSource();
-
-  displayedColumns: string[] = ['position', 'question', 'answer', 'entropy'];
-
+  answeredQuestions: GameQuestion[] = [];
+  ds = new MatTableDataSource<GameQuestion>();
+  
   gameEndState: GameEndState = GameEndState.AwaitingGuessAnswer;
-
-  autocompleteControl = new FormControl();
-  filteredEntities: any;
 
   constructor(private route: ActivatedRoute, private gameService: GameService) { }
 
@@ -44,25 +26,6 @@ export class GamePlayComponent implements OnInit {
     const gameIdFromRoute = routeParams.get('gameId') as string;
   
     this.getGameDetails(gameIdFromRoute);
-
-    this.autocompleteControl.valueChanges      
-      .pipe(
-        debounceTime(500),
-        tap(() => {
-          this.filteredEntities = [];
-          // this.isLoading = true;
-        }),
-        switchMap(value => this.gameService.getEntitiesForAutoComplete(value)
-          .pipe(
-            finalize(() => {
-              // this.isLoading = false
-            }),
-          )
-        )
-      )
-      .subscribe(data => {
-        this.filteredEntities = data;
-      });
   }
 
   getGameDetails(gameId: string): void {
@@ -99,52 +62,5 @@ export class GamePlayComponent implements OnInit {
 
         this.ds.data = this.answeredQuestions;
       });
-
-
-  }
-
-  submitAnswer(answer: string): void {
-    this.gameService.submitGameQuestionAnswer(this.unAnsweredQuestion.id, answer).subscribe(
-      (gameQuestion: GameQuestion) => {
-
-
-        this.unAnsweredQuestion.answer = answer;
-        this.answeredQuestions.splice(0, 0, {...this.unAnsweredQuestion});
-        this.unAnsweredQuestion = {...gameQuestion};
-
-        this.ds.data = this.answeredQuestions;
-      })
-  }
-
-  provideGuessFeedback(correctGuess: boolean): void {
-    if (correctGuess) {
-      this.gameService.provideGuessFeedback(
-        this.unAnsweredQuestion.game.id, 
-        this.unAnsweredQuestion.game.guessed).subscribe(
-          (data) => {
-            this.gameEndState = GameEndState.GuessAnsweredAffirmative;
-          });
-    } else {
-      this.gameEndState = GameEndState.AwaitingFeedbackEntity;
-    }
-  }
-
-  submitReveal(): void {
-    var toSubmit = {'name': this.autocompleteControl.value, 'id': '-1', 'created': new Date()};
-    if ('id' in {...this.autocompleteControl.value}) {
-      toSubmit = this.autocompleteControl.value;
-    }
-
-    this.gameService.provideGuessFeedback(
-      this.unAnsweredQuestion.game.id,
-      toSubmit).subscribe(
-        (data) => {
-          this.gameEndState = GameEndState.FeedbackEntitySubmitted;
-          this.unAnsweredQuestion.game.feedback_entity = toSubmit;
-        });
-  }
-
-  displayFn(entity: any): string {
-    return entity ? entity.name : undefined;
   }
 }

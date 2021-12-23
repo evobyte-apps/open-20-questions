@@ -10,11 +10,21 @@ import { Entity } from '../models/entity';
 import { Question } from '../models/question';
 import { NewQuestionWithAnswers } from '../models/new-question-with-answers';
 
+export enum GameEndState {
+  AwaitingGuessAnswer = 'awaitingGuessAnswer',
+  GuessAnsweredAffirmative = 'guessAnsweredAffirmative',
+  AwaitingFeedbackEntity = 'awaitingFeedbackEntity',
+  FeedbackEntitySubmitted = 'feedbackEntitySubmitted',
+}
+
 @Injectable()
 export class GameService {
   constructor(private http: HttpClient) {}
 
+  gameEndState: GameEndState = GameEndState.AwaitingGuessAnswer;
+
   startGame(): Observable<any> {
+    this.gameEndState = GameEndState.AwaitingGuessAnswer;
     return this.http.post<GameQuestion>(`${API_URL}/game/`, {});
   }
 

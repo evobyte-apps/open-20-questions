@@ -1,0 +1,27 @@
+<ng-container>
+    <mat-card-subtitle>
+        Question #{{answeredQuestions.length + 1}}
+    </mat-card-subtitle>
+    <mat-card-title>    
+        {{unAnsweredQuestion?.question?.text}}
+    </mat-card-title>
+
+    <mat-card-actions class="mat-card-actions-answers">
+        <div></div>
+        <button mat-stroked-button color="primary" (click)="submitAnswer('yes')">
+            Yes
+        </button>
+        <button mat-stroked-button color="primary"(click)="submitAnswer('no')">
+            No
+        </button>
+        <button mat-stroked-button color="primary" (click)="submitAnswer('unknown')">
+            I don't know
+        </button>
+        <button mat-stroked-button color="primary" (click)="submitAnswer('prob_yes')">
+            Probably yes
+        </button>
+        <button mat-stroked-button color="primary" (click)="submitAnswer('prob_no')">
+            Probably no
+        </button>
+    </mat-card-actions>
+</ng-container>
