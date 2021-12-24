@@ -16,7 +16,7 @@ export class GamePlayComponent implements OnInit {
   unAnsweredQuestion!: GameQuestion;
   answeredQuestions: GameQuestion[] = [];
   ds = new MatTableDataSource<GameQuestion>();
-  
+
   gameEndState: GameEndState = GameEndState.AwaitingGuessAnswer;
 
   constructor(private route: ActivatedRoute, private gameService: GameService) { }
@@ -57,8 +57,7 @@ export class GamePlayComponent implements OnInit {
         }
 
         this.answeredQuestions = this.gameWithGameQuestions.gamequestion_set
-          .filter(gameQuestion => gameQuestion.answer)
-          .sort(gameQuestion => -gameQuestion.id);
+          .filter(gameQuestion => gameQuestion.answer);
 
         this.ds.data = this.answeredQuestions;
       });

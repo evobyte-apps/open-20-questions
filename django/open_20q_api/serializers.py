@@ -66,8 +66,7 @@ class GameQuestionOnlyQuestionSerializer(serializers.ModelSerializer):
 
 class GameWithQuestionsSerializer(serializers.ModelSerializer):
 
-    gamequestion_set = GameQuestionOnlyQuestionSerializer(many=True,
-                                                          read_only=True)
+    gamequestion_set = serializers.SerializerMethodField()
     guessed = EntitySerializer()
     feedback_entity = EntitySerializer()
 
@@ -75,6 +74,12 @@ class GameWithQuestionsSerializer(serializers.ModelSerializer):
         model = Game
         fields = ['id', 'started_at', 'gamequestion_set',
                   'guessed', 'feedback_entity']
+
+    def get_gamequestion_set(self, instance):
+        gamequestions = instance.gamequestion_set.all()\
+            .order_by('-asked_at')
+        return GameQuestionSerializer(
+            gamequestions, many=True).data
 
 
 class EntityAnswerSerializer(serializers.Serializer):

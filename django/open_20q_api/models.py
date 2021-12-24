@@ -50,6 +50,7 @@ class GameQuestion(models.Model):
                                  on_delete=models.CASCADE)
     entropy = models.FloatField(default=0)
     answer = models.CharField(max_length=10, null=True)
+    asked_at = models.DateTimeField(auto_now_add=True)
 
 
 class GameEntity(models.Model):
