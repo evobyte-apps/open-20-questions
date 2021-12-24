@@ -20,7 +20,7 @@ class QuestionSubmitView(APIView):
         serializer = NewQuestionWithAnswersSerializer(data=request.data)
         if serializer.is_valid():
             new_question_with_answers = serializer.create(serializer.validated_data)
-            question = Question.objects.create(text=new_question_with_answers.text)
+            question = Question.objects.create(text=new_question_with_answers.text.strip())
 
             question_entities = []
             for entity_answer in new_question_with_answers.answers:

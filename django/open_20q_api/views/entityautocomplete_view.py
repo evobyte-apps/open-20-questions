@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -7,7 +8,12 @@ from open_20q_api.serializers import EntitySerializer
 
 class EntityAutocompleteView(APIView):
 
-    def get(self, request, query):
+    def post(self, request):
+
+        if not 'text' in request.data:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        query = request.data['text']
         if len(query) < 3:
             return Response([])
 

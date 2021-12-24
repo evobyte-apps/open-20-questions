@@ -42,7 +42,7 @@ export class GameService {
   }
 
   getEntitiesForAutoComplete(query: string): Observable<Entity[]> {
-    return this.http.get<Entity[]>(`${API_URL}/entity/autocomplete/${query}/`);
+    return this.http.post<Entity[]>(`${API_URL}/entity/autocomplete/`, { 'text': query });
   }
 
   getQuestionsForAutoComplete(query: string): Observable<Question[]> {

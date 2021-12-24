@@ -11,7 +11,7 @@ urlpatterns = [
          gamequestion_view.GameQuestionView.as_view()),
     path('api/game/<uuid:pk>/submitfeedback/',
          gameprovidefeedback_view.GameProvideFeedbackView.as_view()),
-    path('api/entity/autocomplete/<str:query>/',
+    path('api/entity/autocomplete/',
          entityautocomplete_view.EntityAutocompleteView.as_view()),
     path('api/question/autocomplete/',
          questionautocomplete_view.QuestionAutocompleteView.as_view()),
