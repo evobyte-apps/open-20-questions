@@ -21,6 +21,7 @@ class EntitySerializer(serializers.ModelSerializer):
 class GameSerializer(serializers.ModelSerializer):
 
     guessed = EntitySerializer(required=False)
+    feedback_entity = EntitySerializer(required=False)
 
     class Meta:
         model = Game
@@ -83,7 +84,7 @@ class GameWithQuestionsSerializer(serializers.ModelSerializer):
 
 
 class EntityAnswerSerializer(serializers.Serializer):
-    id_entity = serializers.IntegerField()
+    id_entity = serializers.UUIDField()
     answer = serializers.CharField(max_length=10)
 
     def validate(self, data):
@@ -132,3 +133,15 @@ class NewQuestionWithAnswersSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         return instance
+
+
+class GameStatsSerializer(serializers.Serializer):
+    total_games = serializers.IntegerField()
+    total_finished = serializers.IntegerField()
+    total_correct = serializers.IntegerField()
+
+    total_24h = serializers.IntegerField()
+    total_finished_24h = serializers.IntegerField()
+    total_correct_24h = serializers.IntegerField()
+
+    latest_games = GameSerializer(many=True)

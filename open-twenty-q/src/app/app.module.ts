@@ -32,6 +32,9 @@ import { QuestionComponent } from './components/question/question.component';
 import { AnswerQuestionsComponent } from './components/game-play/answer-questions/answer-questions.component';
 import { GuessFeedbackComponent } from './components/game-play/guess-feedback/guess-feedback.component';
 import { QuestionsHistoryComponent } from './components/game-play/questions-history/questions-history.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { StatsComponent } from './components/stats/stats.component';
 
 
 @NgModule({
@@ -43,6 +46,9 @@ import { QuestionsHistoryComponent } from './components/game-play/questions-hist
     AnswerQuestionsComponent,
     GuessFeedbackComponent,
     QuestionsHistoryComponent,
+    HeaderComponent,
+    FooterComponent,
+    StatsComponent,
   ],
   imports: [
     BrowserModule,

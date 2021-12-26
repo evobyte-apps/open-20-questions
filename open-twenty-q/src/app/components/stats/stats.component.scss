@@ -1,0 +1,21 @@
+.stats-area {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.mat-table {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+.mat-grid-list {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+::ng-deep .stats-area .align-left .mat-figure {
+    justify-content: left;
+}

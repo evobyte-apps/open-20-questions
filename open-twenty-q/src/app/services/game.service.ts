@@ -9,6 +9,7 @@ import { GameWithGameQuestions } from '../models/game-with-gamequestions';
 import { Entity } from '../models/entity';
 import { Question } from '../models/question';
 import { NewQuestionWithAnswers } from '../models/new-question-with-answers';
+import { GameStats } from '../models/game-stats';
 
 export enum GameEndState {
   AwaitingGuessAnswer = 'awaitingGuessAnswer',
@@ -55,5 +56,9 @@ export class GameService {
 
   submitNewQuestion(newQuestionWithAnswers: NewQuestionWithAnswers) {
     return this.http.post<NewQuestionWithAnswers>(`${API_URL}/question/`, newQuestionWithAnswers);
+  }
+
+  getStats(): Observable<GameStats> {
+    return this.http.get<GameStats>(`${API_URL}/game/stats/`);
   }
 }

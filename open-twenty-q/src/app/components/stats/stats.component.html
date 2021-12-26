@@ -1,0 +1,72 @@
+<div class="stats-area">
+    <mat-card>
+        <mat-card-title>Here are some statistics</mat-card-title>
+
+        <mat-card-content>
+            <p>Latest games:</p>
+        
+            <table mat-table [dataSource]="ds" class="mat-elevation-z8"> 
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let element; let i=index">{{ i + 1 }}</td>
+                </ng-container>
+        
+                <ng-container matColumnDef="guessed">
+                    <th mat-header-cell *matHeaderCellDef> I guessed </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.guessed.name }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="feedback">
+                    <th mat-header-cell *matHeaderCellDef> It was </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.feedback_entity.name }} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <p>General stats:</p>
+            <mat-grid-list cols="4" rowHeight="25px">
+                <mat-grid-tile> 
+                    Games started last 24 hours:
+                </mat-grid-tile>
+                <mat-grid-tile class="align-left"> 
+                    <strong>{{ data?.total_24h }}</strong>
+                </mat-grid-tile>
+                <mat-grid-tile> 
+                    Games started in total:
+                </mat-grid-tile>
+                <mat-grid-tile class="align-left"> 
+                    <strong>{{ data?.total_games }}</strong>
+                </mat-grid-tile>
+
+                <mat-grid-tile> 
+                    Games finished last 24 hours:
+                </mat-grid-tile>
+                <mat-grid-tile class="align-left"> 
+                    <strong>{{ data?.total_finished_24h }}</strong>&nbsp;&nbsp;({{getPercentage(data?.total_finished_24h, data?.total_24h)}}%)
+                </mat-grid-tile>
+                <mat-grid-tile> 
+                    Games finished in total:
+                </mat-grid-tile>
+                <mat-grid-tile class="align-left"> 
+                    <strong>{{ data?.total_finished }}</strong> &nbsp;&nbsp;({{getPercentage(data?.total_finished, data?.total_games)}}%)
+                </mat-grid-tile>
+
+                <mat-grid-tile> 
+                    Correct guesses last 24 hours:
+                </mat-grid-tile>
+                <mat-grid-tile class="align-left"> 
+                    <strong>{{ data?.total_correct_24h }}</strong>&nbsp;&nbsp;({{getPercentage(data?.total_correct_24h, data?.total_finished_24h)}}%) 
+                </mat-grid-tile>
+                <mat-grid-tile> 
+                    Correct guesses in total:
+                </mat-grid-tile>
+                <mat-grid-tile class="align-left"> 
+                    <strong>{{ data?.total_correct }}</strong>&nbsp;&nbsp;({{getPercentage(data?.total_correct, data?.total_finished)}}%) 
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+
+    </mat-card>
+</div>

@@ -1,0 +1,22 @@
+.footer {
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.footer mat-icon {
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+.footer a {
+    text-decoration: underline;
+    color: #fff;
+}
+
+.footer a:hover {
+    color: #ff4081;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}

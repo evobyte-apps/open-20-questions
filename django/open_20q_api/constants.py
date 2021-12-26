@@ -19,3 +19,6 @@ min_common_words_for_question_autocomplete = 4
 
 # question add randoms
 random_entities_for_new_question = 20
+
+#other
+latest_games_for_stats = 10
