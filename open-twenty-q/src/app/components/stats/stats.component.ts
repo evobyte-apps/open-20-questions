@@ -17,6 +17,9 @@ export class StatsComponent implements OnInit {
   displayedColumns: string[] = ['position', 'guessed', 'feedback'];
   data?: GameStats;
 
+  isLoading = true;
+  error = '';
+
   constructor(private gameService: GameService, private router: Router) { 
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -31,9 +34,17 @@ export class StatsComponent implements OnInit {
   }
 
   getStats() {
+    this.isLoading = true;
     this.gameService.getStats().subscribe(data => {
       this.data = data;
       this.ds.data = data.latest_games;
+      this.error = '';
+    },
+    error => {
+      this.error = error.statusText;
+    },
+    () => {
+      this.isLoading = false;
     });
   }
 

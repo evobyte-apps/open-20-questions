@@ -19,6 +19,9 @@ export class GamePlayComponent implements OnInit {
 
   gameEndState: GameEndState = GameEndState.AwaitingGuessAnswer;
 
+  isLoading = true;
+  error = '';
+
   constructor(private route: ActivatedRoute, private gameService: GameService) { }
 
   ngOnInit(): void {
@@ -29,6 +32,7 @@ export class GamePlayComponent implements OnInit {
   }
 
   getGameDetails(gameId: string): void {
+    this.isLoading = true;
     this.gameService.getGameDetails(gameId).subscribe(
       (gameDetails: GameWithGameQuestions) => {
         this.gameWithGameQuestions = gameDetails;
@@ -60,6 +64,13 @@ export class GamePlayComponent implements OnInit {
           .filter(gameQuestion => gameQuestion.answer);
 
         this.ds.data = this.answeredQuestions;
+        this.error = '';
+      },
+      (error) => {
+        this.error = error.statusText;
+      },
+      () => {
+        this.isLoading = false;
       });
   }
 }

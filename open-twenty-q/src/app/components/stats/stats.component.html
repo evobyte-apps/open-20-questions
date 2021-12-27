@@ -1,5 +1,14 @@
 <div class="stats-area">
-    <mat-card>
+    <div class="center">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
+        <mat-card *ngIf="error">
+            <mat-card-title>
+                {{ error }}
+            </mat-card-title>
+        </mat-card>
+    </div>
+    
+    <mat-card *ngIf="!isLoading && !error">
         <mat-card-title>Here are some statistics</mat-card-title>
 
         <mat-card-content>
@@ -18,7 +27,19 @@
         
                 <ng-container matColumnDef="feedback">
                     <th mat-header-cell *matHeaderCellDef> It was </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.feedback_entity.name }} </td>
+                    <td mat-cell *matCellDef="let element"> 
+                        <div                         
+                            *ngIf="element.guessed.name === element.feedback_entity.name" 
+                            class="border-green">
+                            {{ element.feedback_entity.name }}
+                        </div>
+                        <div                         
+                            *ngIf="element.guessed.name !== element.feedback_entity.name" 
+                            class="border-red">
+                            {{ element.feedback_entity.name }}
+                        </div>
+                    </td>
+
                 </ng-container>
         
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

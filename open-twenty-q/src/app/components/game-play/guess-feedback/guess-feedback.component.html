@@ -18,12 +18,23 @@
     </ng-container>
 
     <ng-container *ngIf="gameEndState=='guessAnsweredAffirmative'">
-        <mat-card-subtitle>
-            Yaay, I got it right, it was indeed <strong>{{unAnsweredQuestion?.game?.guessed?.name}}</strong>!
-        </mat-card-subtitle>
-        <mat-card-title>    
-            Another game?
-        </mat-card-title>
+        <div class="center">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoadingGuessFeedback"></mat-progress-bar>    
+            <mat-card *ngIf="errorGuessFeedback">
+                <mat-card-title>
+                    {{ errorGuessFeedback }}
+                </mat-card-title>
+            </mat-card>
+        </div>
+
+        <ng-container *ngIf="!isLoadingGuessFeedback && !errorGuessFeedback">
+            <mat-card-subtitle>
+                Yaay, I got it right, it was indeed <strong>{{unAnsweredQuestion?.game?.guessed?.name}}</strong>!
+            </mat-card-subtitle>
+            <mat-card-title>    
+                Another game?
+            </mat-card-title>
+        </ng-container>
     </ng-container>
 
     <ng-container *ngIf="gameEndState=='awaitingFeedbackEntity'">
@@ -37,29 +48,54 @@
         <mat-card-content>
             <mat-form-field appearance="outline">
                 <mat-label>Your entity: </mat-label>
-                <input type="text" matInput [formControl]="autocompleteControl" [matAutocomplete]="auto">
+                <input 
+                    type="text"
+                    placeholder="Type 3 characters for autocomplete" 
+                    matInput 
+                    [formControl]="autocompleteControl" 
+                    [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option *ngFor="let entity of filteredEntities" [value]="entity">
-                      {{entity.name}}
+                    <mat-option *ngIf="isLoadingAutocomplete">
+                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>    
                     </mat-option>
+                    <mat-option *ngIf="errorAutocomplete" aria-disabled="true">
+                        <strong>Error, cannot autocomplete:</strong> {{ errorAutocomplete }}
+                    </mat-option>
+
+                    <ng-container *ngIf="!isLoadingAutocomplete && !errorAutocomplete">
+                        <mat-option *ngFor="let entity of filteredEntities" [value]="entity">
+                            {{entity.name}}
+                        </mat-option>
+                    </ng-container> 
                   </mat-autocomplete>        
             </mat-form-field>
             <button mat-stroked-button color="accent" (click)="submitReveal()">
                 Submit
             </button>
         </mat-card-content>
-        <br/>
     </ng-container>
 
     <ng-container *ngIf="gameEndState==='feedbackEntitySubmitted'">
-        <mat-card-subtitle *ngIf="unAnsweredQuestion.game?.guessed?.name === unAnsweredQuestion.game?.feedback_entity?.name">
-            Yaay, I got it right, it was indeed <strong>{{unAnsweredQuestion.game?.guessed?.name}}</strong>!
-        </mat-card-subtitle>
-        <mat-card-subtitle *ngIf="unAnsweredQuestion.game?.guessed?.name !== unAnsweredQuestion.game?.feedback_entity?.name">
-            Darn, I had this as <strong>{{unAnsweredQuestion.game?.guessed?.name}}</strong>, but it was actually <strong>{{unAnsweredQuestion.game?.feedback_entity?.name}}</strong>!
-        </mat-card-subtitle>
-        <mat-card-title>    
-            Another game?
-        </mat-card-title>
+
+        <div class="center">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoadingReveal"></mat-progress-bar>    
+            <mat-card *ngIf="errorReveal">
+                <mat-card-title>
+                    <strong>An error occurred:</strong> {{ errorReveal }}
+                </mat-card-title>
+            </mat-card>
+        </div>
+
+        <ng-container *ngIf="!isLoadingReveal && !errorReveal">
+            <mat-card-subtitle *ngIf="unAnsweredQuestion.game?.guessed?.name === unAnsweredQuestion.game?.feedback_entity?.name">
+                Yaay, I got it right, it was indeed <strong>{{unAnsweredQuestion.game?.guessed?.name}}</strong>!
+            </mat-card-subtitle>
+            <mat-card-subtitle *ngIf="unAnsweredQuestion.game?.guessed?.name !== unAnsweredQuestion.game?.feedback_entity?.name">
+                Darn, I had this as <strong>{{unAnsweredQuestion.game?.guessed?.name}}</strong>, but it was actually <strong>{{unAnsweredQuestion.game?.feedback_entity?.name}}</strong>!
+            </mat-card-subtitle>
+            <mat-card-title>    
+                Another game?
+            </mat-card-title>
+        </ng-container>
     </ng-container>
 </ng-container>

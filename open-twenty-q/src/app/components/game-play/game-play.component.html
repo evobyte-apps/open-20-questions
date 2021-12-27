@@ -1,5 +1,13 @@
 <div class="play-area" *ngIf="gameWithGameQuestions">
-    <mat-card>
+    <div class="center">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
+        <mat-card *ngIf="error">
+            <mat-card-title>
+                <strong>An error occurred:</strong> {{ error }}
+            </mat-card-title>
+        </mat-card>
+    </div>
+    <mat-card *ngIf="!isLoading && !error">
         <answer-questions 
             [questionHistoryDs]="ds" 
             [(unAnsweredQuestion)]="unAnsweredQuestion"

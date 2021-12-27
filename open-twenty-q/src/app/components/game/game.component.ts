@@ -12,7 +12,7 @@ export class GameComponent implements OnInit {
 
   private navigationSubscription;
   isLoading: boolean = true;
-  error: string = ''; 
+  error = ''; 
 
   constructor(private route: ActivatedRoute, private router: Router, private gameService: GameService) { 
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -33,6 +33,7 @@ export class GameComponent implements OnInit {
       (data: GameQuestion) => {
         this.isLoading = false;
         this.router.navigate(['/game/' + data.game.id]);
+        this.error = '';
       },
       error => {
         this.isLoading = false;

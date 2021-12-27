@@ -27,6 +27,15 @@ export class QuestionComponent implements OnInit {
   newQuestionWithAnswers: NewQuestionWithAnswers;
   submitted: boolean = false;
 
+  isLoadingAutocomplete = false;
+  errorAutocomplete = '';
+
+  isLoadingRandoms = false;
+  errorRandoms = '';
+
+  isLoadingQuestion = false;
+  errorQuestion = '';
+
   constructor(private router: Router, private gameService: GameService) { 
 
     this.newQuestionWithAnswers = {
@@ -52,23 +61,32 @@ export class QuestionComponent implements OnInit {
       debounceTime(500),
       tap(() => {
         this.filteredQuestions = [];
+        this.isLoadingAutocomplete = true;
       }),
       switchMap(value => this.gameService.getQuestionsForAutoComplete(value)
         .pipe(
           finalize(() => {
-            // this.isLoading = false
+            this.isLoadingAutocomplete = false;
           }),
         )
       )
     )
     .subscribe(data => {
       this.filteredQuestions = data;
+      this.errorAutocomplete = '';
+    },
+    error => {
+      this.errorAutocomplete = error.statusText;
+    },
+    () => {
+      this.isLoadingAutocomplete = false;
     });
 
     this.getRandomEntities();
   }
 
   getRandomEntities() {
+    this.isLoadingRandoms = true;
     this.gameService.getRandomEntitiesForQuestion().subscribe(data => {
       this.ds.data = data;
 
@@ -78,6 +96,14 @@ export class QuestionComponent implements OnInit {
           answer: '',
         });
       }
+
+      this.errorRandoms = '';
+    },
+    error => {
+      this.errorRandoms = error.statusText;
+    },
+    () => {
+      this.isLoadingRandoms = false;
     });
   }
 
@@ -89,6 +115,13 @@ export class QuestionComponent implements OnInit {
     this.newQuestionWithAnswers.text = this.autocompleteControl.value;
     this.gameService.submitNewQuestion(this.newQuestionWithAnswers).subscribe(data => {
       this.submitted = true;
+      this.errorQuestion = '';
+    },
+    error => {
+      this.errorQuestion = error.statusText;
+    },
+    () => {
+      this.isLoadingQuestion = false;
     });
   }
 

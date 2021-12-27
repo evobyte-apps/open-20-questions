@@ -17,15 +17,18 @@ export class AnswerQuestionsComponent implements OnInit {
 
   @Input() questionHistoryDs!: MatTableDataSource<GameQuestion>;
 
+  isLoading = false;
+  error = '';
+
   constructor(private gameService: GameService) { }
 
   ngOnInit(): void {
   }
 
   submitAnswer(answer: string): void {
+    this.isLoading = true;
     this.gameService.submitGameQuestionAnswer(this.unAnsweredQuestion.id, answer).subscribe(
       (gameQuestion: GameQuestion) => {
-
 
         this.unAnsweredQuestion.answer = answer;
         this.answeredQuestions.splice(0, 0, {...this.unAnsweredQuestion});
@@ -34,6 +37,14 @@ export class AnswerQuestionsComponent implements OnInit {
         this.unAnsweredQuestionChange.emit(this.unAnsweredQuestion);
 
         this.questionHistoryDs.data = this.answeredQuestions;
-      })
+
+        this.error = '';
+      },
+      error => {
+        this.error = error.statusText;
+      },
+      () => {
+        this.isLoading = false;
+      });
   }
 }

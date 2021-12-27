@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -72,6 +73,7 @@ import { StatsComponent } from './components/stats/stats.component';
     MatCheckboxModule,
     MatRadioModule,
     MatGridListModule,
+    MatProgressBarModule,
 
     FormsModule,
     ReactiveFormsModule,

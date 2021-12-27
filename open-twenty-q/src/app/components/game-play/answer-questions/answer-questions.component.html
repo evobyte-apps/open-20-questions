@@ -1,4 +1,13 @@
-<ng-container>
+<div class="center">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
+    <mat-card *ngIf="error">
+        <mat-card-title>
+            <strong>An error occurred:</strong> {{ error }}
+        </mat-card-title>
+    </mat-card>
+</div>
+
+<ng-container *ngIf="!isLoading && !error">
     <mat-card-subtitle>
         Question #{{answeredQuestions.length + 1}}
     </mat-card-subtitle>
