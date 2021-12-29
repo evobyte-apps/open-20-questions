@@ -68,6 +68,7 @@ export class GamePlayComponent implements OnInit {
       },
       (error) => {
         this.error = error.statusText;
+        this.isLoading = false;
       },
       () => {
         this.isLoading = false;

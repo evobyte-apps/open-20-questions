@@ -42,6 +42,7 @@ export class AnswerQuestionsComponent implements OnInit {
       },
       error => {
         this.error = error.statusText;
+        this.isLoading = false;
       },
       () => {
         this.isLoading = false;

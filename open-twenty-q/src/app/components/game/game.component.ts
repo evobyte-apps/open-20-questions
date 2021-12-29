@@ -38,8 +38,10 @@ export class GameComponent implements OnInit {
       error => {
         this.isLoading = false;
         this.error = error.statusText;
-      }
-    )
+      },
+      () => {
+        this.isLoading = false;
+      })
   }
 
   ngOnDestroy() {

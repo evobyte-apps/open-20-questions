@@ -77,6 +77,7 @@ export class QuestionComponent implements OnInit {
     },
     error => {
       this.errorAutocomplete = error.statusText;
+      this.isLoadingAutocomplete = false;
     },
     () => {
       this.isLoadingAutocomplete = false;
@@ -101,6 +102,7 @@ export class QuestionComponent implements OnInit {
     },
     error => {
       this.errorRandoms = error.statusText;
+      this.isLoadingRandoms = false;
     },
     () => {
       this.isLoadingRandoms = false;
@@ -119,6 +121,7 @@ export class QuestionComponent implements OnInit {
     },
     error => {
       this.errorQuestion = error.statusText;
+      this.isLoadingQuestion = false;
     },
     () => {
       this.isLoadingQuestion = false;

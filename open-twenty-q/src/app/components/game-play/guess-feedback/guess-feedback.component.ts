@@ -70,6 +70,7 @@ export class GuessFeedbackComponent implements OnInit {
           },
           error => {
             this.errorGuessFeedback = error.statusText;
+            this.isLoadingGuessFeedback = false;
           },
           () => {
             this.isLoadingGuessFeedback = false;
@@ -100,6 +101,7 @@ export class GuessFeedbackComponent implements OnInit {
         }, 
         error => {
           this.errorReveal = error.statusText;
+          this.isLoadingReveal = false;
         },
         () => {
           this.isLoadingReveal = false;

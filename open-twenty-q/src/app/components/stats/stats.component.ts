@@ -42,6 +42,7 @@ export class StatsComponent implements OnInit {
     },
     error => {
       this.error = error.statusText;
+      this.isLoading = false;
     },
     () => {
       this.isLoading = false;
