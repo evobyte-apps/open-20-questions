@@ -2,7 +2,8 @@ from django.urls import path
 
 from open_20q_api.views import gamestart_view, gamequestion_view, \
     gameprovidefeedback_view, entityautocomplete_view, \
-    questionautocomplete_view, questionsubmit_view, gamestats_view
+    questionautocomplete_view, questionsubmit_view, gamestats_view, \
+    entitylist_view
 
 urlpatterns = [
     path('api/game/', gamestart_view.GameStartView.as_view()),
@@ -19,4 +20,6 @@ urlpatterns = [
          questionautocomplete_view.QuestionAutocompleteView.as_view()),
     path('api/question/',
          questionsubmit_view.QuestionSubmitView.as_view()),
+    path('api/entity/',
+         entitylist_view.EntityViewSet.as_view({'get': 'list'})),
 ]

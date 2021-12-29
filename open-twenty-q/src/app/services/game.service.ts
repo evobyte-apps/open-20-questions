@@ -10,6 +10,7 @@ import { Entity } from '../models/entity';
 import { Question } from '../models/question';
 import { NewQuestionWithAnswers } from '../models/new-question-with-answers';
 import { GameStats } from '../models/game-stats';
+import { PaginatedEntity } from '../models/paginated-entity';
 
 export enum GameEndState {
   AwaitingGuessAnswer = 'awaitingGuessAnswer',
@@ -61,4 +62,9 @@ export class GameService {
   getStats(): Observable<GameStats> {
     return this.http.get<GameStats>(`${API_URL}/game/stats/`);
   }
+
+  getEntities(page: number, pageSize: number): Observable<PaginatedEntity<Entity>> {
+    return this.http.get<PaginatedEntity<Entity>>(`${API_URL}/entity/?page=${page}&page_size=${pageSize}`);
+  }
+
 }

@@ -20,7 +20,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -36,6 +37,7 @@ import { QuestionsHistoryComponent } from './components/game-play/questions-hist
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { StatsComponent } from './components/stats/stats.component';
+import { EntityComponent } from './components/entity/entity.component';
 
 
 @NgModule({
@@ -50,6 +52,7 @@ import { StatsComponent } from './components/stats/stats.component';
     HeaderComponent,
     FooterComponent,
     StatsComponent,
+    EntityComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,8 @@ import { StatsComponent } from './components/stats/stats.component';
     MatRadioModule,
     MatGridListModule,
     MatProgressBarModule,
-
+    MatPaginatorModule,
+    
     FormsModule,
     ReactiveFormsModule,
   ],
