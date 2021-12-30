@@ -31,7 +31,6 @@ export class GameComponent implements OnInit {
   startGame() {
     this.gameService.startGame().subscribe(
       (data: GameQuestion) => {
-        this.isLoading = false;
         this.router.navigate(['/game/' + data.game.id]);
         this.error = '';
       },
