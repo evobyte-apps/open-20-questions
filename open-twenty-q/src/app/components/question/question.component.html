@@ -12,7 +12,7 @@
         </ng-container>
         <ng-container *ngIf="submitted">
 
-            <div class="center">
+            <div class="center" *ngIf="isLoadingQuestion || errorQuestion">
                 <mat-progress-bar mode="indeterminate" *ngIf="isLoadingQuestion"></mat-progress-bar>    
                 <mat-card *ngIf="errorQuestion">
                     <mat-card-title>
@@ -32,7 +32,7 @@
         </ng-container>
 
         <mat-card-content *ngIf="!submitted">
-            <div class="center">
+            <div class="center" *ngIf="isLoadingAutocomplete || errorAutocomplete">
                 <mat-progress-bar mode="indeterminate" *ngIf="isLoadingAutocomplete"></mat-progress-bar>    
                 <mat-card *ngIf="errorAutocomplete">
                     <mat-card-title>

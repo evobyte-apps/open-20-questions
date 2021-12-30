@@ -6,7 +6,7 @@
             These are the entities we know so far, in alphabetical order.
         </mat-card-subtitle>
 
-        <div class="center">
+        <div class="center" *ngIf="isLoading || error">
             <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
             <mat-card *ngIf="error">
                 <mat-card-title>

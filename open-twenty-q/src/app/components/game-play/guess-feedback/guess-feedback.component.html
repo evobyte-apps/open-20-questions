@@ -18,7 +18,7 @@
     </ng-container>
 
     <ng-container *ngIf="gameEndState=='guessAnsweredAffirmative'">
-        <div class="center">
+        <div class="center" *ngIf="isLoadingGuessFeedback || errorGuessFeedback">
             <mat-progress-bar mode="indeterminate" *ngIf="isLoadingGuessFeedback"></mat-progress-bar>    
             <mat-card *ngIf="errorGuessFeedback">
                 <mat-card-title>
@@ -77,7 +77,7 @@
 
     <ng-container *ngIf="gameEndState==='feedbackEntitySubmitted'">
 
-        <div class="center">
+        <div class="center" *ngIf="isLoadingReveal || errorReveal">
             <mat-progress-bar mode="indeterminate" *ngIf="isLoadingReveal"></mat-progress-bar>    
             <mat-card *ngIf="errorReveal">
                 <mat-card-title>

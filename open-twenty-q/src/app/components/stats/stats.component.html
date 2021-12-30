@@ -1,9 +1,9 @@
 <div class="stats-area">
-    <div class="center">
+    <div class="center" *ngIf="isLoading || error">
         <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
         <mat-card *ngIf="error">
             <mat-card-title>
-                {{ error }}
+                An error occurred: {{ error }}
             </mat-card-title>
         </mat-card>
     </div>
