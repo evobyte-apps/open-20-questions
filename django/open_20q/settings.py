@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # set in .env file
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['twentyq.evobyte.org/']
+ALLOWED_HOSTS = ['twentyq.evobyte.org']
 
 
 # Application definition
