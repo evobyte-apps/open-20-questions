@@ -5,9 +5,10 @@ asgiref=3.4.1=pyhd3eb1b0_0
 blas=1.0=mkl
 ca-certificates=2021.10.26=hecd8cb5_2
 certifi=2021.10.8=py39hecd8cb5_0
-django=3.2.5=pyhd3eb1b0_0
+django=4.0=pyhd8ed1ab_1
 django-cors-headers=3.10.0=pypi_0
 djangorestframework=3.12.4=pyhd8ed1ab_0
+gunicorn=20.1.0=py39hecd8cb5_0
 intel-openmp=2021.4.0=hecd8cb5_3538
 krb5=1.19.2=hcd88c3b_0
 libcxx=12.0.0=h2f01273_0
@@ -26,6 +27,7 @@ openssl=1.1.1l=h9ed2024_0
 pip=21.2.4=py39hecd8cb5_0
 psycopg2=2.8.6=py39hbcfaee0_1
 python=3.9.7=h88f2d9e_1
+python-decouple=3.4=pyhd3deb0d_0
 python_abi=3.9=2_cp39
 pytz=2021.3=pyhd3eb1b0_0
 readline=8.1=h9ed2024_0
