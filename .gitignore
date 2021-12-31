@@ -47,3 +47,4 @@ testem.log
 Thumbs.db
 *.pyc
 django/.env
+django/db.sqlite3

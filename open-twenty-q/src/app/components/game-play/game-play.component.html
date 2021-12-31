@@ -12,13 +12,13 @@
             [questionHistoryDs]="ds" 
             [(unAnsweredQuestion)]="unAnsweredQuestion"
             [answeredQuestions]="answeredQuestions"
-            *ngIf="unAnsweredQuestion.question">
+            *ngIf="unAnsweredQuestion?.question">
         </answer-questions>
 
         <guess-feedback 
             [unAnsweredQuestion]="unAnsweredQuestion"
             [gameEndState]="gameEndState"
-            *ngIf="unAnsweredQuestion.game?.guessed">
+            *ngIf="unAnsweredQuestion?.game?.guessed">
         </guess-feedback>
         
         <questions-history

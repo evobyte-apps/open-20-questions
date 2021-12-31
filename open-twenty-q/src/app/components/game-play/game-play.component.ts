@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameQuestion } from 'src/app/models/game-question';
 import { GameWithGameQuestions } from 'src/app/models/game-with-gamequestions';
 import { GameEndState, GameService } from 'src/app/services/game.service';
@@ -19,16 +19,33 @@ export class GamePlayComponent implements OnInit {
 
   gameEndState: GameEndState = GameEndState.AwaitingGuessAnswer;
 
-  isLoading = true;
+  isLoading = false;
   error = '';
 
-  constructor(private route: ActivatedRoute, private gameService: GameService) { }
+  receivedState = false;
+
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private gameService: GameService) { 
+
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state) {
+      this.receivedState = true;
+      const state = navigation.extras.state as {
+        unansweredQuestion: GameQuestion,
+      }; 
+      this.unAnsweredQuestion = state?.unansweredQuestion;
+    }
+
+  }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const gameIdFromRoute = routeParams.get('gameId') as string;
   
-    this.getGameDetails(gameIdFromRoute);
+    if (!this.receivedState) {
+      this.getGameDetails(gameIdFromRoute);
+    }
   }
 
   getGameDetails(gameId: string): void {
