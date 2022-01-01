@@ -22,6 +22,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -78,6 +79,7 @@ import { EntityComponent } from './components/entity/entity.component';
     MatGridListModule,
     MatProgressBarModule,
     MatPaginatorModule,
+    MatTabsModule,
     
     FormsModule,
     ReactiveFormsModule,

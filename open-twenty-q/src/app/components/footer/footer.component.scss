@@ -1,6 +1,8 @@
 .footer {
     margin-top: 15px;
     font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .footer mat-icon {
@@ -19,4 +21,10 @@
 
 .spacer {
     flex: 1 1 auto;
+}
+
+.mat-toolbar-single-row {
+    height: fit-content;
+    white-space: normal;
+    min-height: 50px;
 }

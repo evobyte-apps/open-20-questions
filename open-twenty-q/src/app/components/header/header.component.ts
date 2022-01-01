@@ -11,20 +11,29 @@ export class HeaderComponent implements OnInit {
   constructor(public router: Router) {
   }
 
-  getColorForPath(path: string) {
+  getHomeColor() {
+    if (this.router.url === '/') {
+      return 'accent';
+    }
+    return '';
+  }
+
+  isActive(path: string) {
     const routerUrl = this.router.url;
+
+    console.log(routerUrl + ', ' + path);
 
     if (path === '/') {
       if (routerUrl === path)
-        return 'accent';
-      return '';
+        return true;
+      return false;
     }
 
     if (routerUrl.includes(path)) {
-      return 'accent';
+      return true;
     }
 
-    return '';
+    return false;
   }
 
   ngOnInit(): void {

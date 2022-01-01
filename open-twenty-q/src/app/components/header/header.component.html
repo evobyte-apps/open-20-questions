@@ -1,18 +1,13 @@
 <mat-toolbar color="primary" class="header">
-    <button mat-icon-button aria-label="Home" routerLink='/' color="{{this.getColorForPath('/')}}">
+    <button mat-icon-button aria-label="Home" routerLink='/' color="{{this.getHomeColor()}}">
         <mat-icon>home</mat-icon>
     </button>
     <span>Open source Twenty Questions app</span>
-    <span class="spacer"></span>
-    <div class="button-row">
-        <button mat-raised-button routerLink='/game' color="{{this.getColorForPath('/game')}}">
-        Play a game
-        </button>
-        <button mat-raised-button routerLink='/entity' color="{{this.getColorForPath('/entity')}}">
-        Browse entities
-        </button>
-        <button mat-raised-button routerLink='/question' color="{{this.getColorForPath('/question')}}">
-        Submit questions
-        </button>
-    </div>
+
 </mat-toolbar>
+
+<nav mat-tab-nav-bar color="accent" mat-align-tabs="center">
+    <a mat-tab-link routerLink='/game' [active]="isActive('/game')">Play a game</a>
+    <a mat-tab-link routerLink='/entity' [active]="isActive('/entity')">Browse entities</a>
+    <a mat-tab-link routerLink='/question' [active]="isActive('/question')">Submit questions</a>
+</nav>

@@ -47,46 +47,48 @@
             </table>
 
             <p>General stats:</p>
-            <mat-grid-list cols="4" rowHeight="25px">
-                <mat-grid-tile> 
+            <!-- <mat-grid-list cols="4" rowHeight="50px"> -->
+            <div class="container">    
+                <div class="item"> 
                     Games started last 24 hours:
-                </mat-grid-tile>
-                <mat-grid-tile class="align-left"> 
+                </div>
+                <div class="item"> 
                     <strong>{{ data?.total_24h }}</strong>
-                </mat-grid-tile>
-                <mat-grid-tile> 
+                </div>
+                <div class="item"> 
                     Games started in total:
-                </mat-grid-tile>
-                <mat-grid-tile class="align-left"> 
+                </div>
+                <div class="item"> 
                     <strong>{{ data?.total_games }}</strong>
-                </mat-grid-tile>
+                </div>
 
-                <mat-grid-tile> 
+                <div class="item"> 
                     Games finished last 24 hours:
-                </mat-grid-tile>
-                <mat-grid-tile class="align-left"> 
+                </div>
+                <div class="item"> 
                     <strong>{{ data?.total_finished_24h }}</strong>&nbsp;&nbsp;({{getPercentage(data?.total_finished_24h, data?.total_24h)}}%)
-                </mat-grid-tile>
-                <mat-grid-tile> 
+                </div>
+                <div class="item"> 
                     Games finished in total:
-                </mat-grid-tile>
-                <mat-grid-tile class="align-left"> 
+                </div>
+                <div class="item"> 
                     <strong>{{ data?.total_finished }}</strong> &nbsp;&nbsp;({{getPercentage(data?.total_finished, data?.total_games)}}%)
-                </mat-grid-tile>
+                </div>
 
-                <mat-grid-tile> 
+                <div class="item"> 
                     Correct guesses last 24 hours:
-                </mat-grid-tile>
-                <mat-grid-tile class="align-left"> 
+                </div>
+                <div class="item"> 
                     <strong>{{ data?.total_correct_24h }}</strong>&nbsp;&nbsp;({{getPercentage(data?.total_correct_24h, data?.total_finished_24h)}}%) 
-                </mat-grid-tile>
-                <mat-grid-tile> 
+                </div>
+                <div class="item"> 
                     Correct guesses in total:
-                </mat-grid-tile>
-                <mat-grid-tile class="align-left"> 
+                </div>
+                <div class="item"> 
                     <strong>{{ data?.total_correct }}</strong>&nbsp;&nbsp;({{getPercentage(data?.total_correct, data?.total_finished)}}%) 
-                </mat-grid-tile>
-            </mat-grid-list>
+                </div>
+            </div>
+            <!-- </mat-grid-list> -->
         </mat-card-content>
 
     </mat-card>

@@ -27,3 +27,17 @@
 ::ng-deep .stats-area .align-left .mat-figure {
     justify-content: left;
 }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+
+}
+  
+.item {
+    width: 25%;
+    box-sizing: border-box;
+
+}
