@@ -20,7 +20,7 @@ class QuestionAutocompleteView(APIView):
 
         questions = {}
         for word in query_words:
-            found_questions = Question.objects.filter(text__icontains=f' {word} ')
+            found_questions = Question.objects.filter(text__icontains=f'{word}')
             for found_question in found_questions:
                 if found_question in questions:
                     questions[found_question] += 1
