@@ -16,6 +16,7 @@
         </answer-questions>
 
         <guess-feedback 
+            [questionHistoryDs]="ds" 
             [unAnsweredQuestion]="unAnsweredQuestion"
             [gameEndState]="gameEndState"
             *ngIf="unAnsweredQuestion?.game?.guessed">

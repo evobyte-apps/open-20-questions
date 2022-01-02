@@ -1,15 +1,35 @@
-from django.db.models import F
+from django.db.models import F, OuterRef, Case, When, Subquery
+from django.db.models.functions import Greatest
 
 from open_20q_api import constants
 from open_20q_api.models import QuestionEntity, GameQuestion, Question
 
 
-def submit_feedback(game):
-    """
-    Submits an entity as feedback for a given game. This is used when our guess
-    was wrong and we ask the user to provide feedback.
-    """
-    pass
+def get_gamequestions_with_expected_answers(game):
+
+    # if the game hasn't ended we just return its gamequestion_set
+    if not game.feedback_entity:
+        return game.gamequestion_set.order_by('-asked_at')
+
+    # I couldn't get this working through the Django ORM
+    gamequestions = GameQuestion.objects.raw(
+        f'''
+select gq.id, gq.game_id, gq.question_id, gq.entropy, gq.answer, gq.asked_at,
+case 
+    when qe.yes_count=greatest(qe.yes_count, qe.no_count, qe.unknown_count) then 'yes'
+    when qe.no_count=greatest(qe.yes_count, qe.no_count, qe.unknown_count) then 'no'
+    else 'unknown'
+end as "expected_answer"
+from public.open_20q_api_gamequestion as gq
+join public.open_20q_api_game as game on game.id=gq.game_id
+inner join public.open_20q_api_questionentity qe
+    on qe.entity_id=game.feedback_entity_id and qe.question_id=gq.question_id
+where gq.game_id='{game.pk}'
+order by gq.asked_at desc
+        '''
+    )
+
+    return gamequestions
 
 
 def update_question_entities(game, for_entity):

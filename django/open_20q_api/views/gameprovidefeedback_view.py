@@ -5,7 +5,8 @@ from rest_framework.views import APIView
 
 from open_20q_api.engine.end_game import update_question_entities
 from open_20q_api.models import Game, Entity
-from open_20q_api.serializers import EntitySerializer
+from open_20q_api.serializers import EntitySerializer, \
+    GameWithQuestionsSerializer
 
 
 class GameProvideFeedbackView(APIView):
@@ -26,7 +27,8 @@ class GameProvideFeedbackView(APIView):
             game.feedback_entity = entity
             game.save()
 
-            return Response(status=status.HTTP_200_OK)
+            game_withgamequestions = GameWithQuestionsSerializer(game)
+            return Response(game_withgamequestions.data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def get_game(self, pk):

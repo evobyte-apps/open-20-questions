@@ -12,9 +12,18 @@ export class QuestionsHistoryComponent implements OnInit {
   @Input() ds!: MatTableDataSource<GameQuestion>;
   displayedColumns: string[] = ['position', 'question', 'answer', 'entropy'];
 
-  constructor() { }
+  constructor() { 
+
+  }
 
   ngOnInit(): void {
   }
 
+  getDisplayedColumns() {
+    if (this.ds.data[0]?.expected_answer) {
+      return this.displayedColumns.concat(['expected_answer']);
+    }
+
+    return this.displayedColumns;
+  }
 }

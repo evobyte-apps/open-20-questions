@@ -12,3 +12,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-progress-bar {
     width: 200px !important;
 }
+
+
+.border-green {
+    border-right: 3px solid green;
+}
+
+.border-red {
+    border-right: 3px solid red;
+}

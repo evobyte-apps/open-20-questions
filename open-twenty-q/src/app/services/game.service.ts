@@ -39,8 +39,8 @@ export class GameService {
       {answer: answer});
   }
 
-  provideGuessFeedback(gameId: string, feedback_entity={}): Observable<any> {
-      return this.http.post<any>(`${API_URL}/game/${gameId}/submitfeedback/`, feedback_entity);
+  provideGuessFeedback(gameId: string, feedback_entity={}): Observable<GameWithGameQuestions> {
+      return this.http.post<GameWithGameQuestions>(`${API_URL}/game/${gameId}/submitfeedback/`, feedback_entity);
   }
 
   getEntitiesForAutoComplete(query: string): Observable<Entity[]> {

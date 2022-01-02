@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from open_20q_api import constants
+from open_20q_api.engine.end_game import \
+    get_gamequestions_with_expected_answers
 from open_20q_api.models import GameQuestion, Game, Question, Entity
 from open_20q_api.view_models import NewQuestionWithAnswers, EntityAnswer
 
@@ -38,6 +40,7 @@ class GameQuestionSerializer(serializers.ModelSerializer):
 
     game = GameSerializer(required=False)
     question = QuestionSerializer(required=False)
+    expected_answer = serializers.CharField(required=False)
 
     def validate_answer(self, answer):
         gamequestion = self.instance
@@ -53,7 +56,8 @@ class GameQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GameQuestion
-        fields = ['id', 'game', 'question', 'answer', 'entropy']
+        fields = ['id', 'game', 'question', 'answer', 'entropy',
+                  'expected_answer']
 
 
 class GameQuestionOnlyQuestionSerializer(serializers.ModelSerializer):
@@ -77,8 +81,7 @@ class GameWithQuestionsSerializer(serializers.ModelSerializer):
                   'guessed', 'feedback_entity']
 
     def get_gamequestion_set(self, instance):
-        gamequestions = instance.gamequestion_set.all()\
-            .order_by('-asked_at')
+        gamequestions = get_gamequestions_with_expected_answers(instance)
         return GameQuestionSerializer(
             gamequestions, many=True).data
 

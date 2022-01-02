@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, finalize, switchMap, tap } from 'rxjs/operators';
 import { GameQuestion } from 'src/app/models/game-question';
 import { GameService } from 'src/app/services/game.service';
@@ -20,6 +21,8 @@ export class GuessFeedbackComponent implements OnInit {
 
   @Input() gameEndState!: GameEndState;
   @Input() unAnsweredQuestion!: GameQuestion;
+  @Input() questionHistoryDs!: MatTableDataSource<GameQuestion>;
+
 
   autocompleteControl = new FormControl();
   filteredEntities: any;
@@ -66,6 +69,7 @@ export class GuessFeedbackComponent implements OnInit {
         this.unAnsweredQuestion.game.guessed).subscribe(
           (data) => {
             this.gameEndState = GameEndState.GuessAnsweredAffirmative;
+            this.questionHistoryDs.data = data.gamequestion_set;
             this.errorGuessFeedback = '';
           },
           error => {
@@ -97,6 +101,7 @@ export class GuessFeedbackComponent implements OnInit {
         (data) => {
           this.gameEndState = GameEndState.FeedbackEntitySubmitted;
           this.unAnsweredQuestion.game.feedback_entity = toSubmit;
+          this.questionHistoryDs.data = data.gamequestion_set;
           this.errorReveal = '';
         }, 
         error => {

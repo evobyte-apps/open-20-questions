@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameQuestion } from 'src/app/models/game-question';
 import { GameWithGameQuestions } from 'src/app/models/game-with-gamequestions';
 import { GameEndState, GameService } from 'src/app/services/game.service';
+import { QuestionsHistoryComponent } from './questions-history/questions-history.component';
 
 @Component({
   selector: 'app-game-play',

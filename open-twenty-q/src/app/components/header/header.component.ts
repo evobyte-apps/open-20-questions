@@ -21,8 +21,6 @@ export class HeaderComponent implements OnInit {
   isActive(path: string) {
     const routerUrl = this.router.url;
 
-    console.log(routerUrl + ', ' + path);
-
     if (path === '/') {
       if (routerUrl === path)
         return true;
