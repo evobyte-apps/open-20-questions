@@ -59,7 +59,7 @@ Below is a description of how to get this running on a bare-bones server, such a
 11. Start the Django REST API with gunicorn, follow this tutorial: https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-centos-7 - you don't need to install anything because we already installed things when creating our conda environment.
 12. You might want to add rate limiting too, see this tutorial: https://medium.com/@christopherphillips_88739/rate-limiting-in-nginx-5af7511ab3ce - my deployment does this.
 13. Compile the Angular app: install `npm`, `angular` (only tested with version 11) and do `npm install` and `ng build --prod` in the `open-twenty-q` folder.
-14. Copy everything to the root nginx web folder you specified in step `7`. I use `rsync` for that, from the `open-twenty-q` folder: `sudo rsync -avzh dist/open-twenty-q/ /var/www/open-twenty-q/`.
+14. Copy everything to the root nginx web folder you specified in step `7`. I use `rsync` for that, from the `open-twenty-q` folder: `sudo rsync -a dist/open-twenty-q/ /var/www/open-twenty-q/`.
 15. You can do `ng build --prod` and step `12` whenever you `git pull` changes to the Angular app. Do `sudo systemctl restart gunicorn` when pull changes to the Django app.
 16. You might need to edit `ALLOWED_HOSTS` in Django's `settings.py` and add your own hostname.
 17. That's it, you can now visit your domain name / server IP in the browser and it should display. Make sure you also followed the permission setting instructions in the linked tutorials.
