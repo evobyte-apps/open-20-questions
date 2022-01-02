@@ -4,6 +4,7 @@ from scipy.stats import entropy
 from open_20q_api import constants
 from open_20q_api.models import QuestionEntity, GameQuestion, \
     Question, GameEntity
+from open_20q_api.view_models import GameStageResult
 
 
 def compute_question_counts(leader_entity, asked_questions):
@@ -68,9 +69,9 @@ def compute_entropies(question_counts):
     return questions_entropies
 
 
-def handle_get_next_question(game, leader_entities):
+def handle_get_next_stage(game, leader_entities):
     """
-    Returns the next GameQuestion object for a given game.
+    Returns the next GameQuestion object for a given game or the game with a guess.
     """
 
     asked_questions = game.gamequestion_set.count()
@@ -78,7 +79,8 @@ def handle_get_next_question(game, leader_entities):
             asked_questions == Question.objects.count():
         game.guessed = leader_entities[0].entity
         game.save()
-        return GameQuestion(game=game, question=None)
+        return GameStageResult(game_with_new_info=game,
+                               next_gamequestion=None)
 
     asked_questions = GameQuestion.objects \
         .filter(game_id=game.pk) \
@@ -96,7 +98,8 @@ def handle_get_next_question(game, leader_entities):
                 .first(),
             entropy=-1)
 
-        return next_gamequestion
+        return GameStageResult(game_with_new_info=None,
+                               next_gamequestion=next_gamequestion)
 
     question_counts = compute_question_counts(leader_entities[0],
                                               asked_questions)
@@ -131,18 +134,22 @@ def handle_get_next_question(game, leader_entities):
                     game=game,
                     question=to_ask,
                     entropy=-1)
-                return next_gamequestion
+
+                return GameStageResult(game_with_new_info=None,
+                                       next_gamequestion=next_gamequestion)
         else:
             game.exploration_questions = 0
             game.save()
 
         game.guessed = leader_entities[0].entity
         game.save()
-        return GameQuestion(game=game, question=None)
+        return GameStageResult(game_with_new_info=game,
+                               next_gamequestion=None)
     else:
         next_gamequestion = GameQuestion.objects.create(
             game=game,
             question=questions_entropies[0][0],
             entropy=questions_entropies[0][1])
 
-        return next_gamequestion
+        return GameStageResult(game_with_new_info=None,
+                               next_gamequestion=next_gamequestion)

@@ -59,7 +59,6 @@ export class EntityComponent implements OnInit {
   }
 
   pageChanged(event: PageEvent) {
-    console.log({event});
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.loadData();

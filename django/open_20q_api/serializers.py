@@ -38,7 +38,6 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class GameQuestionSerializer(serializers.ModelSerializer):
 
-    game = GameSerializer(required=False)
     question = QuestionSerializer(required=False)
     expected_answer = serializers.CharField(required=False)
 
@@ -56,17 +55,8 @@ class GameQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GameQuestion
-        fields = ['id', 'game', 'question', 'answer', 'entropy',
+        fields = ['id', 'question', 'answer', 'entropy',
                   'expected_answer']
-
-
-class GameQuestionOnlyQuestionSerializer(serializers.ModelSerializer):
-
-    question = QuestionSerializer()
-
-    class Meta:
-        model = GameQuestion
-        fields = ['id', 'question', 'answer', 'entropy']
 
 
 class GameWithQuestionsSerializer(serializers.ModelSerializer):
@@ -148,3 +138,8 @@ class GameStatsSerializer(serializers.Serializer):
     total_correct_24h = serializers.IntegerField()
 
     latest_games = GameSerializer(many=True)
+
+
+class GameStageResultSerializer(serializers.Serializer):
+    game_with_new_info = GameSerializer(required=False)
+    next_gamequestion = GameQuestionSerializer(required=False)

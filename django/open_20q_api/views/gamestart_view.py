@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from open_20q_api.engine.start_game import handle_start_game
 from open_20q_api.models import Game
 from open_20q_api.serializers import GameQuestionSerializer, \
-    GameWithQuestionsSerializer
+    GameWithQuestionsSerializer, GameSerializer, GameStageResultSerializer
 
 
 class GameStartView(APIView):
@@ -22,8 +22,8 @@ class GameStartView(APIView):
 
     def post(self, request, format=None):
 
-        gamequestion = handle_start_game()
-        serializer = GameQuestionSerializer(gamequestion)
+        gamestage = handle_start_game()
+        serializer = GameStageResultSerializer(gamestage)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_game(self, pk):

@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { debounceTime, finalize, switchMap, tap } from 'rxjs/operators';
+import { Game } from 'src/app/models/game';
 import { GameQuestion } from 'src/app/models/game-question';
 import { GameService } from 'src/app/services/game.service';
 
@@ -20,7 +22,7 @@ enum GameEndState {
 export class GuessFeedbackComponent implements OnInit {
 
   @Input() gameEndState!: GameEndState;
-  @Input() unAnsweredQuestion!: GameQuestion;
+  @Input() game?: Game;
   @Input() questionHistoryDs!: MatTableDataSource<GameQuestion>;
 
 
@@ -34,9 +36,10 @@ export class GuessFeedbackComponent implements OnInit {
   errorGuessFeedback = '';
   errorReveal = '';
 
-  constructor(private gameService: GameService) { }
+  constructor(private route: ActivatedRoute, private gameService: GameService) { }
 
   ngOnInit(): void {
+
     this.autocompleteControl.valueChanges      
     .pipe(
       debounceTime(500),
@@ -65,8 +68,8 @@ export class GuessFeedbackComponent implements OnInit {
     if (correctGuess) {
       this.isLoadingGuessFeedback = true;
       this.gameService.provideGuessFeedback(
-        this.unAnsweredQuestion.game.id, 
-        this.unAnsweredQuestion.game.guessed).subscribe(
+        this.game?.id, 
+        this.game?.guessed).subscribe(
           (data) => {
             this.gameEndState = GameEndState.GuessAnsweredAffirmative;
             this.questionHistoryDs.data = data.gamequestion_set;
@@ -96,11 +99,13 @@ export class GuessFeedbackComponent implements OnInit {
 
     this.isLoadingReveal = true;
     this.gameService.provideGuessFeedback(
-      this.unAnsweredQuestion.game.id,
+      this.game?.id,
       toSubmit).subscribe(
         (data) => {
           this.gameEndState = GameEndState.FeedbackEntitySubmitted;
-          this.unAnsweredQuestion.game.feedback_entity = toSubmit;
+          if (this.game) {          
+            this.game.feedback_entity = toSubmit;
+          }
           this.questionHistoryDs.data = data.gamequestion_set;
           this.errorReveal = '';
         }, 

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+from typing import Optional
 
-from open_20q_api.models import Game
+from open_20q_api.models import Game, GameQuestion
 
 
 @dataclass
@@ -26,3 +27,9 @@ class GameStats:
     total_correct_24h: int
 
     latest_games: list[Game]
+
+
+@dataclass
+class GameStageResult:
+    game_with_new_info: Optional[Game]
+    next_gamequestion: Optional[GameQuestion]

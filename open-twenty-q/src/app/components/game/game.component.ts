@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Game } from 'src/app/models/game';
 import { GameQuestion } from 'src/app/models/game-question';
+import { GameStageResult } from 'src/app/models/game-stage-result';
+import { GameWithGameQuestions } from 'src/app/models/game-with-gamequestions';
 import { GameService } from 'src/app/services/game.service';
 
 @Component({
@@ -30,8 +33,8 @@ export class GameComponent implements OnInit {
 
   startGame() {
     this.gameService.startGame().subscribe(
-      (data: GameQuestion) => {
-        this.router.navigate(['/game/', data.game.id], {state: {unansweredQuestion: data}});
+      (data: GameStageResult) => {
+        this.router.navigate(['/game/', data?.game_with_new_info?.id], {state: {gameStageResult: data}});
         this.error = '';
       },
       error => {

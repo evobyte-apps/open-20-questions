@@ -9,6 +9,7 @@
     </div>
     <mat-card *ngIf="!isLoading && !error">
         <answer-questions 
+            [(game)]="game"
             [questionHistoryDs]="ds" 
             [(unAnsweredQuestion)]="unAnsweredQuestion"
             [answeredQuestions]="answeredQuestions"
@@ -17,9 +18,9 @@
 
         <guess-feedback 
             [questionHistoryDs]="ds" 
-            [unAnsweredQuestion]="unAnsweredQuestion"
+            [game]="game"
             [gameEndState]="gameEndState"
-            *ngIf="unAnsweredQuestion?.game?.guessed">
+            *ngIf="!unAnsweredQuestion">
         </guess-feedback>
         
         <questions-history

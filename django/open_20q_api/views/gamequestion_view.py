@@ -9,11 +9,11 @@ from scipy.stats import entropy
 
 from open_20q_api import constants
 from open_20q_api.engine.get_guess import handle_get_leaders
-from open_20q_api.engine.get_next_question import handle_get_next_question
+from open_20q_api.engine.get_next_question import handle_get_next_stage
 from open_20q_api.engine.update_scores import handle_update_scores
 from open_20q_api.models import GameQuestion, GameEntity, QuestionEntity
-from open_20q_api.serializers import GameQuestionSerializer
-
+from open_20q_api.serializers import GameQuestionSerializer, \
+    GameStageResultSerializer
 
 
 class GameQuestionView(APIView):
@@ -31,9 +31,9 @@ class GameQuestionView(APIView):
 
             leader_entities = handle_get_leaders(game)
             handle_update_scores(gamequestion, leader_entities)
-            next_gamequestion = handle_get_next_question(game, leader_entities)
+            next_stage = handle_get_next_stage(game, leader_entities)
 
-            return Response(GameQuestionSerializer(next_gamequestion).data,
+            return Response(GameStageResultSerializer(next_stage).data,
                             status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

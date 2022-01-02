@@ -11,6 +11,7 @@ import { Question } from '../models/question';
 import { NewQuestionWithAnswers } from '../models/new-question-with-answers';
 import { GameStats } from '../models/game-stats';
 import { PaginatedEntity } from '../models/paginated-entity';
+import { GameStageResult } from '../models/game-stage-result';
 
 export enum GameEndState {
   AwaitingGuessAnswer = 'awaitingGuessAnswer',
@@ -23,23 +24,21 @@ export enum GameEndState {
 export class GameService {
   constructor(private http: HttpClient) {}
 
-  gameEndState: GameEndState = GameEndState.AwaitingGuessAnswer;
 
-  startGame(): Observable<any> {
-    this.gameEndState = GameEndState.AwaitingGuessAnswer;
-    return this.http.post<GameQuestion>(`${API_URL}/game/`, {});
+  startGame(): Observable<GameStageResult> {
+    return this.http.post<GameStageResult>(`${API_URL}/game/`, {});
   }
 
   getGameDetails(id?: string): Observable<GameWithGameQuestions> {
     return this.http.get<GameWithGameQuestions>(`${API_URL}/game/${id}`);
   }
 
-  submitGameQuestionAnswer(gameQuestionId: string, answer: string): Observable<GameQuestion> {
-    return this.http.post<GameQuestion>(`${API_URL}/gamequestion/${gameQuestionId}/`, 
+  submitGameQuestionAnswer(gameQuestionId: string, answer: string): Observable<GameStageResult> {
+    return this.http.post<GameStageResult>(`${API_URL}/gamequestion/${gameQuestionId}/`, 
       {answer: answer});
   }
 
-  provideGuessFeedback(gameId: string, feedback_entity={}): Observable<GameWithGameQuestions> {
+  provideGuessFeedback(gameId?: string, feedback_entity={}): Observable<GameWithGameQuestions> {
       return this.http.post<GameWithGameQuestions>(`${API_URL}/game/${gameId}/submitfeedback/`, feedback_entity);
   }
 
