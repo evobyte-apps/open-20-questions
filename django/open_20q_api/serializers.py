@@ -3,7 +3,9 @@ from rest_framework import serializers
 from open_20q_api import constants
 from open_20q_api.engine.end_game import \
     get_gamequestions_with_expected_answers
-from open_20q_api.models import GameQuestion, Game, Question, Entity
+from open_20q_api.engine.get_guess import handle_get_leaders
+from open_20q_api.models import GameQuestion, Game, Question, Entity, \
+    GameEntity
 from open_20q_api.view_models import NewQuestionWithAnswers, EntityAnswer
 
 
@@ -59,21 +61,36 @@ class GameQuestionSerializer(serializers.ModelSerializer):
                   'expected_answer']
 
 
+class GameEntitySerializer(serializers.ModelSerializer):
+
+    entity = serializers.SlugRelatedField(slug_field='name', read_only=True)
+
+    class Meta:
+        model = GameEntity
+        fields = ['entity', 'entity_score']
+
+
 class GameWithQuestionsSerializer(serializers.ModelSerializer):
 
     gamequestion_set = serializers.SerializerMethodField()
     guessed = EntitySerializer()
     feedback_entity = EntitySerializer()
+    top_candidates = serializers.SerializerMethodField()
 
     class Meta:
         model = Game
         fields = ['id', 'started_at', 'gamequestion_set',
-                  'guessed', 'feedback_entity']
+                  'guessed', 'feedback_entity', 'top_candidates']
 
     def get_gamequestion_set(self, instance):
         gamequestions = get_gamequestions_with_expected_answers(instance)
         return GameQuestionSerializer(
             gamequestions, many=True).data
+
+    def get_top_candidates(self, instance):
+        return GameEntitySerializer(
+            handle_get_leaders(instance),
+            many=True).data
 
 
 class EntityAnswerSerializer(serializers.Serializer):
@@ -143,3 +160,4 @@ class GameStatsSerializer(serializers.Serializer):
 class GameStageResultSerializer(serializers.Serializer):
     game_with_new_info = GameSerializer(required=False)
     next_gamequestion = GameQuestionSerializer(required=False)
+    top_candidates = GameEntitySerializer(many=True, required=False)

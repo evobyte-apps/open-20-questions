@@ -31,7 +31,9 @@ class GameQuestionView(APIView):
 
             leader_entities = handle_get_leaders(game)
             handle_update_scores(gamequestion, leader_entities)
-            next_stage = handle_get_next_stage(game, leader_entities)
+
+            new_leader_entities = handle_get_leaders(game)
+            next_stage = handle_get_next_stage(game, new_leader_entities)
 
             return Response(GameStageResultSerializer(next_stage).data,
                             status=status.HTTP_201_CREATED)

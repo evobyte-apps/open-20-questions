@@ -53,3 +53,4 @@ def handle_update_scores(gamequestion, leader_entities):
         for gameentity_to_score in gameentities_to_score:
             gameentity_to_score.entity_score += score_by
         GameEntity.objects.bulk_update(gameentities_to_score, ['entity_score'])
+

@@ -80,7 +80,8 @@ def handle_get_next_stage(game, leader_entities):
         game.guessed = leader_entities[0].entity
         game.save()
         return GameStageResult(game_with_new_info=game,
-                               next_gamequestion=None)
+                               next_gamequestion=None,
+                               top_candidates=leader_entities)
 
     asked_questions = GameQuestion.objects \
         .filter(game_id=game.pk) \
@@ -99,7 +100,8 @@ def handle_get_next_stage(game, leader_entities):
             entropy=-1)
 
         return GameStageResult(game_with_new_info=None,
-                               next_gamequestion=next_gamequestion)
+                               next_gamequestion=next_gamequestion,
+                               top_candidates=leader_entities)
 
     question_counts = compute_question_counts(leader_entities[0],
                                               asked_questions)
@@ -136,7 +138,8 @@ def handle_get_next_stage(game, leader_entities):
                     entropy=-1)
 
                 return GameStageResult(game_with_new_info=None,
-                                       next_gamequestion=next_gamequestion)
+                                       next_gamequestion=next_gamequestion,
+                                       top_candidates=leader_entities)
         else:
             game.exploration_questions = 0
             game.save()
@@ -144,7 +147,8 @@ def handle_get_next_stage(game, leader_entities):
         game.guessed = leader_entities[0].entity
         game.save()
         return GameStageResult(game_with_new_info=game,
-                               next_gamequestion=None)
+                               next_gamequestion=None,
+                               top_candidates=leader_entities)
     else:
         next_gamequestion = GameQuestion.objects.create(
             game=game,
@@ -152,4 +156,5 @@ def handle_get_next_stage(game, leader_entities):
             entropy=questions_entropies[0][1])
 
         return GameStageResult(game_with_new_info=None,
-                               next_gamequestion=next_gamequestion)
+                               next_gamequestion=next_gamequestion,
+                               top_candidates=leader_entities)
