@@ -8,7 +8,7 @@ full_matching_answer_score = 1
 partial_matching_answer_divisor = 2
 
 # cutoffs
-distance_from_leader_cutoff = 3
+distance_from_leader_cutoff = 2
 clear_leader_cutoff = 2
 exploration_questions_after_clear_leader = 3
 max_total_questions = 20

@@ -1,4 +1,5 @@
 import { Entity } from "./entity"
+import { GameEntity } from "./game-entity"
 import { GameQuestion } from "./game-question"
 
 export interface GameWithGameQuestions {
@@ -7,5 +8,5 @@ export interface GameWithGameQuestions {
     gamequestion_set: GameQuestion[]
     guessed: Entity
     feedback_entity: Entity
-    
+    top_candidates: GameEntity[]
 }

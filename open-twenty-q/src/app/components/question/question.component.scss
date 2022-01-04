@@ -32,3 +32,17 @@
 ::ng-deep .question-area .mat-grid-tile .mat-figure {
     justify-content: left;
 }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+
+}
+  
+.item {
+    width: 49%;
+    margin: 0.5%;
+    box-sizing: border-box;
+}

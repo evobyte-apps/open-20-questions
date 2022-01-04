@@ -46,7 +46,13 @@ export class AnswerQuestionsComponent implements OnInit {
           this.unAnsweredQuestion = gameStageResult.next_gamequestion;
         }
         
-        this.game = gameStageResult.game_with_new_info;
+        if (this.game) {
+          this.game.top_candidates = gameStageResult.top_candidates;
+        }
+        if (gameStageResult.game_with_new_info) {
+          this.game = gameStageResult.game_with_new_info;
+          this.game.top_candidates = gameStageResult.top_candidates;
+        }
         this.gameChange.emit(this.game);
 
         this.unAnsweredQuestionChange.emit(this.unAnsweredQuestion);

@@ -1,44 +1,40 @@
-<mat-card-content>
-    <p>Question history:</p>
+<table mat-table [dataSource]="ds" class="mat-elevation-z8"> 
+    <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{ds.data.length - ds.data.indexOf(element)}} </td>
+    </ng-container>
 
-    <table mat-table [dataSource]="ds" class="mat-elevation-z8"> 
-        <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element"> {{ds.data.length - ds.data.indexOf(element)}} </td>
-        </ng-container>
+    <ng-container matColumnDef="question">
+        <th mat-header-cell *matHeaderCellDef> Question </th>
+        <td mat-cell *matCellDef="let element"> {{element.question.text}} </td>
+    </ng-container>
 
-        <ng-container matColumnDef="question">
-            <th mat-header-cell *matHeaderCellDef> Question </th>
-            <td mat-cell *matCellDef="let element"> {{element.question.text}} </td>
-        </ng-container>
+    <ng-container matColumnDef="answer">
+        <th mat-header-cell *matHeaderCellDef> Answered </th>
+        <td mat-cell *matCellDef="let element"> {{element.answer}} </td>
+    </ng-container>
 
-        <ng-container matColumnDef="answer">
-            <th mat-header-cell *matHeaderCellDef> Answered </th>
-            <td mat-cell *matCellDef="let element"> {{element.answer}} </td>
-        </ng-container>
+    <ng-container matColumnDef="entropy">
+        <th mat-header-cell *matHeaderCellDef> Entropy </th>
+        <td mat-cell *matCellDef="let element"> {{element.entropy.toFixed(3)}} </td>
+    </ng-container>
 
-        <ng-container matColumnDef="entropy">
-            <th mat-header-cell *matHeaderCellDef> Entropy </th>
-            <td mat-cell *matCellDef="let element"> {{element.entropy.toFixed(3)}} </td>
-        </ng-container>
+    <ng-container matColumnDef="expected_answer">
+        <th mat-header-cell *matHeaderCellDef> Expected answer </th>
+        <td mat-cell *matCellDef="let element">
+            <div                         
+                *ngIf="element.expected_answer === element.answer" 
+                class="border-green">
+                {{ element.expected_answer }}
+            </div>
+            <div                         
+                *ngIf="element.expected_answer !== element.answer" 
+                class="border-red">
+                {{ element.expected_answer }}
+            </div>
+        </td>
+    </ng-container>
 
-        <ng-container matColumnDef="expected_answer">
-            <th mat-header-cell *matHeaderCellDef> Expected answer </th>
-            <td mat-cell *matCellDef="let element">
-                <div                         
-                    *ngIf="element.expected_answer === element.answer" 
-                    class="border-green">
-                    {{ element.expected_answer }}
-                </div>
-                <div                         
-                    *ngIf="element.expected_answer !== element.answer" 
-                    class="border-red">
-                    {{ element.expected_answer }}
-                </div>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
-    </table>
-</mat-card-content>
+    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+</table>

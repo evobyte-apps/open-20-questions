@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from 'src/app/models/game';
+import { GameEntity } from 'src/app/models/game-entity';
 import { GameQuestion } from 'src/app/models/game-question';
 import { GameStageResult } from 'src/app/models/game-stage-result';
 import { GameWithGameQuestions } from 'src/app/models/game-with-gamequestions';
@@ -20,6 +21,8 @@ export class GamePlayComponent implements OnInit {
   game?: Game;
   answeredQuestions: GameQuestion[] = [];
   ds = new MatTableDataSource<GameQuestion>();
+
+  topCandidates?: GameEntity[] = [];
 
   gameEndState: GameEndState = GameEndState.AwaitingGuessAnswer;
 
@@ -40,6 +43,9 @@ export class GamePlayComponent implements OnInit {
       }; 
       this.unAnsweredQuestion = state.gameStageResult.next_gamequestion;
       this.game = state.gameStageResult.game_with_new_info;
+      if (this.game) {
+        this.game.top_candidates = state.gameStageResult.top_candidates;
+      }
     }
 
   }

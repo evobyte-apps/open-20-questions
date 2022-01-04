@@ -63,13 +63,18 @@ export class QuestionComponent implements OnInit {
         this.filteredQuestions = [];
         this.isLoadingAutocomplete = true;
       }),
-      switchMap(value => this.gameService.getQuestionsForAutoComplete(value)
-        .pipe(
-          finalize(() => {
-            this.isLoadingAutocomplete = false;
-          }),
-        )
-      )
+      switchMap((value: string) => {
+        if (this.autocompleteControl.value.length < 10) {
+          this.isLoadingAutocomplete = false;
+          return [];
+        }
+        return this.gameService.getQuestionsForAutoComplete(value)
+          .pipe(
+            finalize(() => {
+              this.isLoadingAutocomplete = false;
+            }),
+          )
+      })
     )
     .subscribe(data => {
       this.filteredQuestions = data;
@@ -116,6 +121,9 @@ export class QuestionComponent implements OnInit {
   submitQuestion() {
     this.isLoadingQuestion = true;
     this.newQuestionWithAnswers.text = this.autocompleteControl.value;
+    if (this.newQuestionWithAnswers.text.length < 10) {
+      this.errorQuestion = 'Make sure you have typed an actual question.';
+    }
     this.gameService.submitNewQuestion(this.newQuestionWithAnswers).subscribe(data => {
       this.submitted = true;
       this.errorQuestion = '';

@@ -32,11 +32,11 @@
             </div>
             <ng-container *ngIf="filteredQuestions.length > 0 && !isLoadingAutocomplete && !errorAutocomplete">
                 <p>Please make sure that these existing questions are not similar enough before adding your own:</p>
-                <mat-grid-list cols="2" rowHeight="30px">
-                    <mat-grid-tile *ngFor="let q of filteredQuestions; let i=index"> 
+                <div class="container">
+                    <div class=item *ngFor="let q of filteredQuestions; let i=index"> 
                         {{ i+1 }}. {{ q.text }} 
-                    </mat-grid-tile>
-                </mat-grid-list>
+                    </div>
+                </div>
                 <p></p>
             </ng-container>
 

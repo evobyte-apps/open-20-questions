@@ -23,6 +23,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -80,6 +81,7 @@ import { EntityComponent } from './components/entity/entity.component';
     MatProgressBarModule,
     MatPaginatorModule,
     MatTabsModule,
+    MatChipsModule,
     
     FormsModule,
     ReactiveFormsModule,
