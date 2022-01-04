@@ -110,7 +110,8 @@ def handle_get_next_stage(game, leader_entities):
     # guess or explore
     leaders_diff = leader_entities[0].entity_score - leader_entities[
         1].entity_score
-    if not questions_entropies or leaders_diff > constants.clear_leader_cutoff:
+    entropies_ok = questions_entropies and questions_entropies[0][1] > 0
+    if not entropies_ok or leaders_diff > constants.clear_leader_cutoff:
         if game.exploration_questions < constants.exploration_questions_after_clear_leader:
 
             game.exploration_questions += 1
