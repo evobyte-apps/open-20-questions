@@ -106,20 +106,22 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
 
+                <div class="center" *ngIf="isLoadingQuestion || errorQuestion">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoadingQuestion"></mat-progress-bar>    
+                    <mat-card *ngIf="errorQuestion">
+                        <mat-card-content>
+                            <strong>An error occurred</strong>: {{ errorQuestion }}
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
                 <div class="submit"> 
                     <button mat-raised-button color="accent" (click)="submitQuestion()">
                         Submit
                     </button>    
-
-                    <div class="center" *ngIf="isLoadingQuestion || errorQuestion">
-                        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingQuestion"></mat-progress-bar>    
-                        <mat-card *ngIf="errorQuestion">
-                            <mat-card-content>
-                                An error occurred: {{ errorQuestion }}
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
                 </div>  
+
+
             </ng-container>
         </mat-card-content>
     </mat-card>
