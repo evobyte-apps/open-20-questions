@@ -114,13 +114,14 @@ export class QuestionComponent implements OnInit {
   }
 
   submitQuestion() {
+    this.isLoadingQuestion = true;
     this.newQuestionWithAnswers.text = this.autocompleteControl.value;
     this.gameService.submitNewQuestion(this.newQuestionWithAnswers).subscribe(data => {
       this.submitted = true;
       this.errorQuestion = '';
     },
     error => {
-      this.errorQuestion = error.statusText;
+      this.errorQuestion = 'Make sure you have answered the question for all the given entities.';
       this.isLoadingQuestion = false;
     },
     () => {

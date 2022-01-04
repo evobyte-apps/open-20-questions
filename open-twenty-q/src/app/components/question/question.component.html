@@ -11,16 +11,6 @@
             </mat-card-title>
         </ng-container>
         <ng-container *ngIf="submitted">
-
-            <div class="center" *ngIf="isLoadingQuestion || errorQuestion">
-                <mat-progress-bar mode="indeterminate" *ngIf="isLoadingQuestion"></mat-progress-bar>    
-                <mat-card *ngIf="errorQuestion">
-                    <mat-card-title>
-                        An error occurred: {{ errorQuestion }}
-                    </mat-card-title>
-                </mat-card>
-            </div>
-
             <ng-container *ngIf="!isLoadingQuestion && !errorQuestion">
                 <mat-card-subtitle>
                     Thank you for your contribution, it has been recorded.
@@ -120,6 +110,15 @@
                     <button mat-raised-button color="accent" (click)="submitQuestion()">
                         Submit
                     </button>    
+
+                    <div class="center" *ngIf="isLoadingQuestion || errorQuestion">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingQuestion"></mat-progress-bar>    
+                        <mat-card *ngIf="errorQuestion">
+                            <mat-card-content>
+                                An error occurred: {{ errorQuestion }}
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
                 </div>  
             </ng-container>
         </mat-card-content>
