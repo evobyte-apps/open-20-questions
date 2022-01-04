@@ -14,21 +14,19 @@ class QuestionAutocompleteView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         query = request.data['text']
-        query_words = query.split(' ')
-        if len(query_words) < 4:
+        if len(query) < 10:
             return Response([])
 
-        questions = {}
-        for word in query_words:
-            found_questions = Question.objects.filter(text__icontains=f'{word}')
-            for found_question in found_questions:
-                if found_question in questions:
-                    questions[found_question] += 1
-                else:
-                    questions[found_question] = 1
-
-        questions = [question for question, count in
-                     sorted(questions.items(), key=lambda item: -item[1]) if
-                     count >= constants.min_common_words_for_question_autocomplete]
-        return Response(QuestionSerializer(questions[:constants.max_question_autocomplete_results], many=True).data)
+        questions = Question.objects.raw(
+'''
+SELECT
+	*
+from 
+    public.open_20q_api_question as q
+order by 
+    SIMILARITY(%s, q.text) desc
+limit
+    %s
+''', [query, constants.max_question_autocomplete_results])
+        return Response(QuestionSerializer(questions, many=True).data)
 

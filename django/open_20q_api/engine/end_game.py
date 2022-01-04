@@ -24,10 +24,9 @@ from public.open_20q_api_gamequestion as gq
 join public.open_20q_api_game as game on game.id=gq.game_id
 join public.open_20q_api_questionentity qe
     on qe.entity_id=game.feedback_entity_id and qe.question_id=gq.question_id
-where gq.game_id='{game.pk}'
+where gq.game_id=%s
 order by gq.asked_at desc
-        '''
-    )
+        ''', [game.pk])
 
     return gamequestions
 
