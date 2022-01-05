@@ -54,6 +54,15 @@ Below is a description of how to get this running on a bare-bones server, such a
     DB_HOST = 'localhost'
     DB_PORT = 5432
     DEBUG = True <--- set it to False for a real deployment
+    
+    distance_from_leader_cutoff = 2
+    clear_leader_cutoff = 2
+    exploration_questions_after_clear_leader = 5
+    max_total_questions = 20
+    max_question_autocomplete_results = 20
+    min_common_words_for_question_autocomplete = 4
+    random_entities_for_new_question = 20
+    latest_games_for_stats = 10    
     ```
 10. Go in the `django` folder and run `python manage.py migrate` to run the migrations.
 11. Start the Django REST API with gunicorn, follow this tutorial: https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-centos-7 - you don't need to install anything because we already installed things when creating our conda environment.
