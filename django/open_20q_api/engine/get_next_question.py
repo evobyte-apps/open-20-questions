@@ -61,7 +61,10 @@ def compute_entropies(question_counts):
     for key in question_counts:
         counts = question_counts[key]
         s = sum(counts)
-        entropies[key] = entropy([counts[0] / s, counts[1] / s], base=2)
+        if s == 0:
+            entropies[key] = 0
+        else:
+            entropies[key] = entropy([counts[0] / s, counts[1] / s], base=2)
 
     questions_entropies = sorted(entropies.items(), key=lambda x: x[1],
                                  reverse=True)
