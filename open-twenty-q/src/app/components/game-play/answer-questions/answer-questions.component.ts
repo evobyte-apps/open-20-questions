@@ -37,6 +37,7 @@ export class AnswerQuestionsComponent implements OnInit {
       return;
     }
     this.isLoading = true;
+    this.error = '';
     this.gameService.submitGameQuestionAnswer(this.unAnsweredQuestion.id, answer).subscribe(
       (gameStageResult: GameStageResult) => {
 

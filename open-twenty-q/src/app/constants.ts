@@ -1,1 +1,1 @@
-export const API_URL = 'https://twentyq.evobyte.org/api';
+export const API_URL = '/api';

@@ -62,6 +62,7 @@ export class QuestionComponent implements OnInit {
       tap(() => {
         this.filteredQuestions = [];
         this.isLoadingAutocomplete = true;
+        this.errorAutocomplete = '';
       }),
       switchMap((value: string) => {
         if (this.autocompleteControl.value.length < 10) {
@@ -93,6 +94,7 @@ export class QuestionComponent implements OnInit {
 
   getRandomEntities() {
     this.isLoadingRandoms = true;
+    this.errorRandoms = '';
     this.gameService.getRandomEntitiesForQuestion().subscribe(data => {
       this.ds.data = data;
 
@@ -120,6 +122,7 @@ export class QuestionComponent implements OnInit {
 
   submitQuestion() {
     this.isLoadingQuestion = true;
+    this.errorQuestion = '';
     this.newQuestionWithAnswers.text = this.autocompleteControl.value;
     if (this.newQuestionWithAnswers.text.length < 10) {
       this.errorQuestion = 'Make sure you have typed an actual question.';

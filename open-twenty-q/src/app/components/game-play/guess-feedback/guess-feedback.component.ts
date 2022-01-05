@@ -45,6 +45,7 @@ export class GuessFeedbackComponent implements OnInit {
       debounceTime(500),
       tap(() => {
         this.filteredEntities = [];
+        this.errorAutocomplete = '';
         this.isLoadingAutocomplete = true;
       }),
       switchMap(value => this.gameService.getEntitiesForAutoComplete(value)
@@ -67,6 +68,7 @@ export class GuessFeedbackComponent implements OnInit {
   provideGuessFeedback(correctGuess: boolean): void {
     if (correctGuess) {
       this.isLoadingGuessFeedback = true;
+      this.errorGuessFeedback = '';
       this.gameService.provideGuessFeedback(
         this.game?.id, 
         this.game?.guessed).subscribe(
@@ -97,6 +99,7 @@ export class GuessFeedbackComponent implements OnInit {
       toSubmit = this.autocompleteControl.value;
     }
 
+    this.errorReveal = '';
     this.isLoadingReveal = true;
     this.gameService.provideGuessFeedback(
       this.game?.id,

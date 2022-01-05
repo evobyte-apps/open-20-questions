@@ -1,13 +1,15 @@
-<div class="center" *ngIf="isLoading || error">
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
-    <mat-card *ngIf="error">
-        <mat-card-title>
-            <strong>An error occurred:</strong> {{ error }}
-        </mat-card-title>
-    </mat-card>
+<div class="action-loading" *ngIf="isLoading || error">
+    <div class="center">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
+        <mat-card *ngIf="error">
+            <mat-card-title>
+                <strong>An error occurred:</strong> {{ error }}
+            </mat-card-title>
+        </mat-card>
+    </div>
 </div>
 
-<ng-container *ngIf="!isLoading && !error">
+<div class="action-play" *ngIf="!isLoading && !error">
     <mat-card-subtitle>
         Question #{{answeredQuestions.length + 1}}
     </mat-card-subtitle>
@@ -33,4 +35,4 @@
             Probably no
         </button>
     </mat-card-actions>
-</ng-container>
+</div>

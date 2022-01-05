@@ -35,6 +35,7 @@ export class StatsComponent implements OnInit {
 
   getStats() {
     this.isLoading = true;
+    this.error = '';
     this.gameService.getStats().subscribe(data => {
       this.data = data;
       this.ds.data = data.latest_games;

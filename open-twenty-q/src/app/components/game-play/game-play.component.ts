@@ -61,6 +61,7 @@ export class GamePlayComponent implements OnInit {
 
   getGameDetails(gameId: string): void {
     this.isLoading = true;
+    this.error = '';
     this.gameService.getGameDetails(gameId).subscribe(
       (gameDetails: GameWithGameQuestions) => {
         this.game = {
