@@ -57,10 +57,10 @@ Below is a description of how to get this running on a bare-bones server, such a
     ```
 10. Go in the `django` folder and run `python manage.py migrate` to run the migrations.
 11. Start the Django REST API with gunicorn, follow this tutorial: https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-centos-7 - you don't need to install anything because we already installed things when creating our conda environment.
-12. You might want to add rate limiting too, see this tutorial: https://medium.com/@christopherphillips_88739/rate-limiting-in-nginx-5af7511ab3ce - my deployment does this.
+12. You might want to add rate limiting too, see this tutorial: https://medium.com/@christopherphillips_88739/rate-limiting-in-nginx-5af7511ab3ce - my deployment does this. My deployment also handles CORS according to: https://enable-cors.org/server_nginx.html
 13. Compile the Angular app: install `npm`, `angular` (only tested with version 11) and do `npm install` and `ng build --prod` in the `open-twenty-q` folder.
-14. Copy everything to the root nginx web folder you specified in step `7`. I use `rsync` for that, from the `open-twenty-q` folder: `sudo rsync -a dist/open-twenty-q/ /var/www/open-twenty-q/`.
-15. You can do `ng build --prod` and step `12` whenever you `git pull` changes to the Angular app. Do `sudo systemctl restart gunicorn` when pull changes to the Django app.
+14. Copy everything to the root nginx web folder you specified in step `7`. I use `rsync` for that, from the `open-twenty-q` folder: `sudo rsync -a --delete dist/open-twenty-q/ /var/www/open-twenty-q/`.
+15. You can do `ng build --prod` and step `12` whenever you `git pull` changes to the Angular app. Do `sudo systemctl restart gunicorn` when pulling changes to the Django app.
 16. You might need to edit `ALLOWED_HOSTS` in Django's `settings.py` and add your own hostname.
 17. That's it, you can now visit your domain name / server IP in the browser and it should display. Make sure you also followed the permission setting instructions in the linked tutorials.
 18. Currently you will need to seed the database with `1` entity and `1` question, otherwise the API won't behave properly. Other than the UUIDs and date times, you can add whatever you want. Here are some UUIDs and date times you can copy paste: `25bccbb0-adce-4ca0-96f5-668adb5faa25`, `3d42b4f8-e273-49b8-8412-b9130a42e3c2`, `2021-12-30 22:50:04.825663+00`.
