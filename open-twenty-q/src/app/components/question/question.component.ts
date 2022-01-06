@@ -123,7 +123,7 @@ export class QuestionComponent implements OnInit {
   submitQuestion() {
     this.errorQuestion = '';
     this.newQuestionWithAnswers.text = this.autocompleteControl.value;
-    if (this.newQuestionWithAnswers.text.length < 10) {
+    if (this.newQuestionWithAnswers.text && this.newQuestionWithAnswers.text.length < 10) {
       this.errorQuestion = 'Make sure you have typed an actual question.';
       return;
     }
