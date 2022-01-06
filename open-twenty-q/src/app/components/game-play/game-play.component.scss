@@ -1,9 +1,12 @@
 .play-area {
     max-width: 1000px;
     margin: 0 auto;
+    height: 1238px;
 }
 
-
+.mat-card {
+    height: -webkit-fill-available;
+}
 
 .mat-card-actions-guessed {
     max-width: 700px;

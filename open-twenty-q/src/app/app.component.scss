@@ -1,3 +1,9 @@
 .content {
-    min-height: 800px;
+    min-height: 1446px;
+    display: flex;
+    flex-direction: column;
+}
+
+app-footer {
+    margin-top: auto;
 }
