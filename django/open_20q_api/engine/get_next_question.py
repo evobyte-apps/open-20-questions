@@ -49,27 +49,58 @@ def compute_question_counts(leader_entity, asked_questions):
     return question_counts
 
 
-def compute_entropies(question_counts):
-    """
-    Updates the question_counts dictionary to:
-    d[q] = entropy for q
-    based on the computed counts.
+def compute_entropies(game, leader_entity):
+    cutoff = leader_entity.entity_score - constants.distance_from_leader_cutoff
 
-    Returns a list of (question, entropy) sorted descendingly by entropy.
-    """
-    entropies = {}
-    for key in question_counts:
-        counts = question_counts[key]
-        s = sum(counts)
-        if s == 0:
-            entropies[key] = 0
-        else:
-            entropies[key] = entropy([counts[0] / s, counts[1] / s], base=2)
+    question_entropies = Question.objects.raw(
+"""
 
-    questions_entropies = sorted(entropies.items(), key=lambda x: x[1],
-                                 reverse=True)
+SELECT
+	t.question_id as id,
+	case 
+		when t.yeses = 0 or t.nos = 0 then 0
+		else (-(t.yeses::float / (t.yeses + t.nos))*log((t.yeses::float / (t.yeses+ t.nos)))/0.30102999566-(t.nos::float / (t.yeses + t.nos))*log(t.nos::float / (t.yeses + t.nos))/0.30102999566) 
+	end as entropy
+FROM (
+	SELECT
+		qe.question_id,
+		sum(
+			case when qe.yes_count = greatest(
+			    qe.no_count, 
+			    qe.yes_count, 
+			    qe.unknown_count) then 1 else 0 end
+		) as yeses,
+		sum(
+			case when qe.no_count = greatest(
+			    qe.no_count, 
+			    qe.yes_count, 
+			    qe.unknown_count) then 1 else 0 end
+		) as nos
+	FROM 	
+		public.open_20q_api_questionentity as qe
+	WHERE (
+		NOT EXISTS (
+			SELECT 
+			    gq.question_id 
+            FROM 
+                public.open_20q_api_gamequestion gq 
+            WHERE 
+                gq.game_id = %s and gq.question_id = qe.question_id 
+		) AND NOT EXISTS (
+			SELECT 
+			    ge.entity_id 
+			FROM 
+			    public.open_20q_api_gameentity ge 
+			WHERE ge."entity_score" < %s AND ge.game_id = %s and ge.entity_id = qe.entity_id
+			)
+		)
+	group by 
+		qe.question_id
+) t
+order by entropy desc
+""", [game.pk, cutoff, game.pk])
 
-    return questions_entropies
+    return question_entropies
 
 
 def handle_get_next_stage(game, leader_entities):
@@ -86,13 +117,12 @@ def handle_get_next_stage(game, leader_entities):
                                next_gamequestion=None,
                                top_candidates=leader_entities)
 
-    asked_questions = GameQuestion.objects \
-        .filter(game_id=game.pk) \
-        .values_list('question_id', flat=True)
-
     # probably we don't have many entities yet,
     # so just return a random question
     if len(leader_entities) < 2:
+        asked_questions = GameQuestion.objects \
+            .filter(game_id=game.pk) \
+            .values_list('question_id', flat=True)
         next_gamequestion = GameQuestion.objects.create(
             game=game,
             question=Question
@@ -106,14 +136,12 @@ def handle_get_next_stage(game, leader_entities):
                                next_gamequestion=next_gamequestion,
                                top_candidates=leader_entities)
 
-    question_counts = compute_question_counts(leader_entities[0],
-                                              asked_questions)
-    questions_entropies = compute_entropies(question_counts)
+    questions_entropies = compute_entropies(game, leader_entities[0])
 
     # guess or explore
     leaders_diff = leader_entities[0].entity_score - leader_entities[
         1].entity_score
-    entropies_ok = questions_entropies and questions_entropies[0][1] > 0
+    entropies_ok = questions_entropies and questions_entropies[0].entropy > 0
     if not entropies_ok or leaders_diff > constants.clear_leader_cutoff:
         if game.exploration_questions < constants.exploration_questions_after_clear_leader:
 
@@ -156,8 +184,8 @@ def handle_get_next_stage(game, leader_entities):
     else:
         next_gamequestion = GameQuestion.objects.create(
             game=game,
-            question=questions_entropies[0][0],
-            entropy=questions_entropies[0][1])
+            question_id=questions_entropies[0].id,
+            entropy=questions_entropies[0].entropy)
 
         return GameStageResult(game_with_new_info=None,
                                next_gamequestion=next_gamequestion,
