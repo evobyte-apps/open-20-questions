@@ -121,13 +121,13 @@ export class QuestionComponent implements OnInit {
   }
 
   submitQuestion() {
-    this.isLoadingQuestion = true;
     this.errorQuestion = '';
     this.newQuestionWithAnswers.text = this.autocompleteControl.value;
     if (this.newQuestionWithAnswers.text.length < 10) {
       this.errorQuestion = 'Make sure you have typed an actual question.';
       return;
     }
+    this.isLoadingQuestion = true;
     this.gameService.submitNewQuestion(this.newQuestionWithAnswers).subscribe(data => {
       this.submitted = true;
       this.errorQuestion = '';
