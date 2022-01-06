@@ -61,3 +61,7 @@ class GameEntity(models.Model):
                                on_delete=models.CASCADE)
     entity_score = models.FloatField(default=0)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['entity_score']),
+        ]
