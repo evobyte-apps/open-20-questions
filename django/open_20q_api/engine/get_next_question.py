@@ -148,6 +148,9 @@ def handle_get_next_stage(game, leader_entities):
             game.exploration_questions += 1
             game.save()
 
+            asked_questions = GameQuestion.objects \
+                .filter(game_id=game.pk) \
+                .values_list('question_id', flat=True)
             # try the one not linked to the leader and with fewest links
             to_ask = Question.objects \
                 .exclude(pk__in=asked_questions) \
