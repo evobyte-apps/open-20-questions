@@ -18,7 +18,7 @@
                 <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef> No. </th>
                     <td mat-cell *matCellDef="let element; let i=index">
-                        <a mat-button href="https://www.google.com/" target="_blank" color="primary">
+                        <a mat-button href="/game/{{element.id}}" color="primary">
                             {{ i + 1 }}
                         </a>
                     </td>
