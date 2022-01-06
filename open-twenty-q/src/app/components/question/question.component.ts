@@ -130,6 +130,7 @@ export class QuestionComponent implements OnInit {
     this.gameService.submitNewQuestion(this.newQuestionWithAnswers).subscribe(data => {
       this.submitted = true;
       this.errorQuestion = '';
+      window.scroll(0, 0);
     },
     error => {
       this.errorQuestion = 'Make sure you have answered the question for all the given entities.';
