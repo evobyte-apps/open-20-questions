@@ -54,7 +54,7 @@ export class StatsComponent implements OnInit {
     if (!what || !of) {
       return "0";
     }
-    return (what / of * 100).toFixed(3);
+    return (what / of * 100).toFixed(1);
   }
  
   ngOnDestroy() {

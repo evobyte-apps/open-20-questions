@@ -1,40 +1,42 @@
-<div class="play-area">
-    <div class="center" *ngIf="isLoading || error">
-        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
-        <mat-card *ngIf="error">
-            <mat-card-title>
-                <strong>An error occurred:</strong> {{ error }}
-            </mat-card-title>
+<div class="play-container">
+    <div class="play-area">
+        <div class="center" *ngIf="isLoading || error">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>    
+            <mat-card *ngIf="error">
+                <mat-card-title>
+                    <strong>An error occurred:</strong> {{ error }}
+                </mat-card-title>
+            </mat-card>
+        </div>
+        <mat-card *ngIf="!isLoading && !error">
+
+                <answer-questions 
+                    [(game)]="game"
+                    [questionHistoryDs]="ds" 
+                    [(unAnsweredQuestion)]="unAnsweredQuestion"
+                    [answeredQuestions]="answeredQuestions"
+                    *ngIf="unAnsweredQuestion?.question">
+                </answer-questions>
+
+            <mat-card-content>
+                <guess-feedback 
+                    [questionHistoryDs]="ds" 
+                    [game]="game"
+                    [gameEndState]="gameEndState"
+                    *ngIf="!unAnsweredQuestion">
+                </guess-feedback>
+                
+                <mat-chip-list>
+                    <mat-chip color="primary" *ngFor="let candidate of game?.top_candidates">
+                        {{candidate.entity}}: {{candidate.entity_score}}
+                    </mat-chip>
+                </mat-chip-list>
+
+                <questions-history
+                    [ds]="ds">
+                </questions-history>
+            </mat-card-content>
         </mat-card>
+
     </div>
-    <mat-card *ngIf="!isLoading && !error">
-
-            <answer-questions 
-                [(game)]="game"
-                [questionHistoryDs]="ds" 
-                [(unAnsweredQuestion)]="unAnsweredQuestion"
-                [answeredQuestions]="answeredQuestions"
-                *ngIf="unAnsweredQuestion?.question">
-            </answer-questions>
-
-        <mat-card-content>
-            <guess-feedback 
-                [questionHistoryDs]="ds" 
-                [game]="game"
-                [gameEndState]="gameEndState"
-                *ngIf="!unAnsweredQuestion">
-            </guess-feedback>
-            
-            <mat-chip-list>
-                <mat-chip color="primary" *ngFor="let candidate of game?.top_candidates">
-                    {{candidate.entity}}: {{candidate.entity_score}}
-                </mat-chip>
-            </mat-chip-list>
-
-            <questions-history
-                [ds]="ds">
-            </questions-history>
-        </mat-card-content>
-    </mat-card>
-
 </div>
