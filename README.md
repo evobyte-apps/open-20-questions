@@ -2,7 +2,7 @@
 
 This is an open source 20 questions game implementation (you might know the game from akinator.com) in Django Rest Framework and Angular. 
 
-This is mostly a personal project, so some good-practice dev behaviors that you might be used to are probably not followed (because reasons), but I do my best to keep things decent. If you are interested in maintaining this to a higher standard, please drop me an email: **ivlad AT evobyte POINT org**. For questions or code improvement suggestions, please open an issue or submit a pull request.
+This is mostly a personal project, so some good-practice dev behaviors that you might be used to are probably not followed (because reasons), but I do my best to keep things decent. If you are interested in maintaining this to a higher standard, please drop me an email: **ionescu.vlad1 @ gmail POINT com**. For questions or code improvement suggestions, please open an issue or submit a pull request.
 
 Below is a description of how to get this running on a bare-bones server, such as a Google Cloud or Amazon Virtual Machine. Some of it is written from memory, so if something doesn't work quite right, feel free to open an issue.
 
